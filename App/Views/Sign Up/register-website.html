@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}My Home Budget - Home Page{% endblock %}
+
+{% block footer %}
+	
+	<script>
+	
+	</script>
+{% endblock %}
+
+{% block body %}
+	<div class="bg-description">
+		<section class="container">
+			<div class="row justify-content-center">
+			
+				<form class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 px-4 pt-4 pb-4 my-4 bg-white formStart" method="post">
+					<div class="bg-header-fnc py-2 mb-4">
+						
+						Register new user
+					
+					</div>
+					
+					<div class="input-group-text">
+						<div class="inputIcon">
+							<i class="icon-user"></i>
+						</div>
+						
+						<input type="text" name="userName" class="form-control" placeholder="name" onfocus="this.placeholder=''" onblur="this.placeholder='name'" style="height: 40px" >
+					</div>
+					
+					<div class="input-group-text">
+						<div class="inputIcon">
+							<i class="icon-mail-alt"></i>
+						</div>
+						
+						<input type="text" name="email" class="form-control" placeholder="email@adress.com" onfocus="this.placeholder=''" onblur="this.placeholder='email@adress.com'" style="height: 40px" >
+					</div>
+					
+					<div class="input-group-text">
+						<div class="inputIcon">
+						
+							<i class="icon-lock"></i>
+						
+						</div>
+						
+						<input type="password" name="password1" id="myInput" class="form-control" placeholder="password" onfocus="this.placeholder=''" onblur="this.placeholder='password'" style="height: 40px">
+						
+						<button type="button" class="inputIcon" id="toggler" onclick="showPassword()">
+						
+							<i class="icon-eye-1"></i>
+						
+						</button>
+					
+					</div>
+					
+					<div class="input-group-text">
+						<div class="inputIcon">
+						
+							<i class="icon-lock"></i>
+						
+						</div>
+						
+						<input type="password" name="password2" class="form-control" placeholder="confirm password" onfocus="this.placeholder=''" onblur="this.placeholder='confirm password'" style="height: 40px">
+					</div>
+					
+					<button class="px-3 py-2 mt-4 mb-3 signButton" type="submit">
+						<i class="icon-user-add"></i>
+						Sign Up
+					</button>
+					
+					<div>Already have an account?<a href="home-budget" class="ms-1 SignIn">Sign In</a></div>
+					
+				</form>
+			</div>
+		</section>
+	</div>
+
+	
+	<footer class="mt-4">
+			
+		All rights reserved 2021 &copy; myhomebudget.com Thank you for your visit!
+			
+	</footer>
+	
+{% endblock %}

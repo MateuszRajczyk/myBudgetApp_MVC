@@ -1,11 +1,53 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	
+	<title>{% block title %}{% endblock %}</title>
+	
+	<meta name="description" content="Track your incomes and expenses - application to menagement your home finance" />
+	<meta name="keywords" content="expense, incomes, finance menager, money menager, budget planner" />
+	<meta name="author" content="Mateusz Rajczyk">
+	
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="/css/fontello.css" type="text/css" />
+	<link href='https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap' rel='stylesheet'>
+	<link rel="stylesheet" href="/css/styles.css" type="text/css" />
+	
 </head>
-<body>
+
+<body style="background-image: url('/img/ripples.png')">
+	<div class="container">
+			<header>
+				<div class="row justify-content-sm-evenly justify-content-md-between mb-4">
+					<h1 class="text-md-start col-lg-6 col-md-8 mt-4 logo">
+						<a href="home-budget" class="mButton">My Home Budget</a>
+						<p class="col-sm-12 text-md-start subtitle">Application to menagement your home finance</p>
+					</h1>
+
+					<img src="/img/money-bag-no-back.png" alt="money bag with dollar icon" class="d-md-block mt-4 logo-icon" style="width: 100px; height: 80px;" />
+						
+					<div class="col-sm-3 mt-4 d-lg-block adv">
+					
+						Start to control balance of your finances!
+					
+					</div>
+				</div>
+			</header>	
+	</div>
+	
     {% block body %}
+    {% endblock %}
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/hideShowPassword.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"</script>
+	
+	{% block footer %}
     {% endblock %}
 </body>
 </html>

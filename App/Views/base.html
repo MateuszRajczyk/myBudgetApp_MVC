@@ -23,7 +23,7 @@
 			<header>
 				<div class="row justify-content-sm-evenly justify-content-md-between mb-4">
 					<h1 class="text-md-start col-lg-6 col-md-8 mt-4 logo">
-						<a href="home-budget" class="mButton">My Home Budget</a>
+						<a href="/home/index" class="mButton">My Home Budget</a>
 						<p class="col-sm-12 text-md-start subtitle">Application to menagement your home finance</p>
 					</h1>
 
@@ -43,11 +43,14 @@
     
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 	<script src="/js/bootstrap.min.js"></script>
-	<script src="/js/hideShowPassword.js"></script>
+	<script src="/js/myFunctionsBrowser.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"</script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 	
 	{% block footer %}
+    {% endblock %}
+	
+	{% block links %}
     {% endblock %}
 </body>
 </html>

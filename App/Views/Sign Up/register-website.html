@@ -2,19 +2,22 @@
 
 {% block title %}My Home Budget - Home Page{% endblock %}
 
+
 {% block footer %}
 	
 	<script>
-	
+		validateSignUpForm();
+		showHidePassword();
 	</script>
+	
 {% endblock %}
 
-{% block body %}
+{% block body %}	
 	<div class="bg-description">
 		<section class="container">
 			<div class="row justify-content-center">
 			
-				<form class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 px-4 pt-4 pb-4 my-4 bg-white formStart" method="post">
+				<form class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 px-4 pt-4 pb-4 my-4 bg-white formStart" method="post" action="/signup/create" id="formSignUp">
 					<div class="bg-header-fnc py-2 mb-4">
 						
 						Register new user
@@ -26,7 +29,23 @@
 							<i class="icon-user"></i>
 						</div>
 						
-						<input type="text" name="userName" class="form-control" placeholder="name" onfocus="this.placeholder=''" onblur="this.placeholder='name'" style="height: 40px" >
+						<input type="text" name="userName" class="form-control" value="{{ user.userName }}" placeholder="name" onfocus="this.placeholder=''" onblur="this.placeholder='name'" style="height: 40px" required>
+					</div>
+					
+					<div class="text-danger text-start ps-3 errorName errorValidation">
+
+                        {% if user.errors['ErrName1'] is defined %}
+							<div>{{ user.errors['ErrName1'] }}</div>
+                        {% endif %}
+                        
+                        {% if user.errors['ErrName2'] is defined %}
+							<div>{{ user.errors['ErrName2'] }}</div>
+                        {% endif %}
+                        
+                        {% if user.errors['ErrName3'] is defined %}
+							<div>{{ user.errors['ErrName3'] }}</div>
+                        {% endif %}
+
 					</div>
 					
 					<div class="input-group-text">
@@ -34,7 +53,21 @@
 							<i class="icon-mail-alt"></i>
 						</div>
 						
-						<input type="text" name="email" class="form-control" placeholder="email@adress.com" onfocus="this.placeholder=''" onblur="this.placeholder='email@adress.com'" style="height: 40px" >
+						<input type="text" name="email" class="form-control" value="{{ user.email }}" placeholder="email@adress.com" onfocus="this.placeholder=''" onblur="this.placeholder='email@adress.com'" style="height: 40px" required>
+					</div>
+					
+					<div class="text-danger text-start ps-3 errorEmail errorValidation">
+						{% if user.errors['ErrEmail1'] is defined %}
+							<div>{{ user.errors['ErrEmail1'] }}</div>
+						{% endif %}
+						
+						{% if user.errors['ErrEmail2'] is defined %}
+							<div>{{ user.errors['ErrEmail2'] }}</div>
+						{% endif %}					
+						
+						{% if user.errors['ErrEmail3'] is defined %}
+							<div>{{ user.errors['ErrEmail3'] }}</div>
+						{% endif %}
 					</div>
 					
 					<div class="input-group-text">
@@ -44,16 +77,30 @@
 						
 						</div>
 						
-						<input type="password" name="password1" id="myInput" class="form-control" placeholder="password" onfocus="this.placeholder=''" onblur="this.placeholder='password'" style="height: 40px">
+						<input type="password" name="password1" id="passwordValid" class="form-control passwordShowHide" placeholder="password" onfocus="this.placeholder=''" onblur="this.placeholder='password'" style="height: 40px" required>
 						
-						<button type="button" class="inputIcon" id="toggler" onclick="showPassword()">
+						<button type="button" class="showHide inputIcon">
 						
-							<i class="icon-eye-1"></i>
+							<i class="icon-eye-1" id="toggler"></i>
 						
 						</button>
 					
 					</div>
 					
+					<div class="text-danger text-start ps-3 errorPassword errorValidation">
+						{% if user.errors['ErrPassword2'] is defined %}
+							<div>{{ user.errors['ErrPassword2'] }}</div>
+						{% endif %}
+						
+						{% if user.errors['ErrPassword3'] is defined %}
+							<div>{{ user.errors['ErrPassword3'] }}</div>
+						{% endif %}
+						
+						{% if user.errors['ErrPassword4'] is defined %}
+							<div>{{ user.errors['ErrPassword4'] }}</div>
+						{% endif %}
+					</div>
+					
 					<div class="input-group-text">
 						<div class="inputIcon">
 						
@@ -61,7 +108,13 @@
 						
 						</div>
 						
-						<input type="password" name="password2" class="form-control" placeholder="confirm password" onfocus="this.placeholder=''" onblur="this.placeholder='confirm password'" style="height: 40px">
+						<input type="password" name="password2" class="form-control" placeholder="confirm password" onfocus="this.placeholder=''" onblur="this.placeholder='confirm password'" style="height: 40px" required>
+					</div>
+					
+					<div class="text-danger text-start ps-3 errorPasswordConfirmation errorValidation">
+						{% if user.errors['ErrPassword1'] is defined %}
+							<div>{{ user.errors['ErrPassword1'] }}</div>
+						{% endif %}
 					</div>
 					
 					<button class="px-3 py-2 mt-4 mb-3 signButton" type="submit">
@@ -69,7 +122,7 @@
 						Sign Up
 					</button>
 					
-					<div>Already have an account?<a href="home-budget" class="ms-1 SignIn">Sign In</a></div>
+					<div>Already have an account?<a href="/home/index" class="ms-1 SignIn">Sign In</a></div>
 					
 				</form>
 			</div>
@@ -83,4 +136,7 @@
 			
 	</footer>
 	
+
+	
 {% endblock %}
+

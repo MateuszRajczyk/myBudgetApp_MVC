@@ -20,7 +20,7 @@ class Signup extends \Core\Controller
      */
     public function newAction()
     {
-        View::renderTemplate('Signup/register-website.html');
+        View::renderTemplate('Sign Up/register-website.html');
     }
 
     /**
@@ -34,12 +34,12 @@ class Signup extends \Core\Controller
 
         if ($user->save()) {
 
-            header('Location: http://' . $_SERVER['HTTP_HOST'] . '/signup/thank-you-for-registration', true, 303);
+            header('Location: http://' . $_SERVER['HTTP_HOST'] . '/signup/success', true, 303);
             exit;
 
         } else {
 
-            View::renderTemplate('Signup/register-website.html', [
+            View::renderTemplate('Sign Up/register-website.html', [
                 'user' => $user
             ]);
 
@@ -53,6 +53,6 @@ class Signup extends \Core\Controller
      */
     public function successAction()
     {
-        View::renderTemplate('Signup/success.html');
+        View::renderTemplate('Sign Up/thank-you-for-registration.html');
     }
 }

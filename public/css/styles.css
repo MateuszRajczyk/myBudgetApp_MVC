@@ -453,3 +453,14 @@ ul > li > div > a:hover
 	font-family: 'Nunito', sans-serif;
 	color: #061703;
 }
+
+div.errorValidation > div:before
+{
+	content: "✖ ";
+	font-weight: 700;
+}
+
+div.errorValidation > div
+{
+	font-size: 16px;
+}

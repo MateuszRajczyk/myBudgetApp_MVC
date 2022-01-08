@@ -39,22 +39,23 @@ class User extends \Core\Model
      * @return boolean  True if the user was saved, false otherwise
      */
     public function save()
-    {
+    {	
         $this->validate();
 
         if (empty($this->errors)) {
 
-            $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
+            $password_hash = password_hash(($this->password1), PASSWORD_DEFAULT);
 
-            $sql = 'INSERT INTO users (name, email, password_hash)
-                    VALUES (:name, :email, :password_hash)';
+            $sql = 'INSERT INTO users (username, password, email)
+                    VALUES (:userName, :password_hash, :email)';
                                               
             $db = static::getDB();
             $stmt = $db->prepare($sql);
                                                   
-            $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
+            $stmt->bindValue(':userName', $this->userName, PDO::PARAM_STR);
+			$stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
             $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
-            $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
+            
                                           
             return $stmt->execute();
         }
@@ -70,33 +71,46 @@ class User extends \Core\Model
     public function validate()
     {
         // Name
-        if ($this->name == '') {
-            $this->errors[] = 'Name is required';
+        if ($this->userName == '') {
+            $this->errors['ErrName1'] = 'Name is required';
         }
+		
+		if ((strlen($this->userName)<3) || (strlen($this->userName)>20)) {
+			$this->errors['ErrName2']='Name of user must have from 3 to 20 characters!';
+		}
+
+		if (ctype_alnum($this->userName)==false)
+		{
+			$this->errors['ErrName3']='Name of user must have only letters and numbers!';
+		}
 
         // email address
-        if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false) {
-            $this->errors[] = 'Invalid email';
+		if ($this->email == '') {
+            $this->errors['ErrEmail1'] = 'Email is required';
         }
-        if ($this->emailExists($this->email)) {
-            $this->errors[] = 'email already taken';
+        if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false) {
+            $this->errors['ErrEmail2'] = 'Invalid email';
+        }
+		
+        if (static::emailExists($this->email)) {
+            $this->errors['ErrEmail3'] = 'Email already taken';
         }
 
         // Password
-        if ($this->password != $this->password_confirmation) {
-            $this->errors[] = 'Password must match confirmation';
+        if ($this->password1 != $this->password2) {
+            $this->errors['ErrPassword1'] = 'Entered passwords are not match!';
         }
 
-        if (strlen($this->password) < 6) {
-            $this->errors[] = 'Please enter at least 6 characters for the password';
+        if (strlen($this->password1) < 6) {
+            $this->errors['ErrPassword2'] = 'Please enter at least 6 characters for the password';
         }
 
-        if (preg_match('/.*[a-z]+.*/i', $this->password) == 0) {
-            $this->errors[] = 'Password needs at least one letter';
+        if (preg_match('/.*[a-z]+.*/i', $this->password1) == 0) {
+            $this->errors['ErrPassword3'] = 'Password needs at least one letter';
         }
 
-        if (preg_match('/.*\d+.*/i', $this->password) == 0) {
-            $this->errors[] = 'Password needs at least one number';
+        if (preg_match('/.*\d+.*/', $this->password1) == 0) {
+            $this->errors['ErrPassword4'] = 'Password needs at least one number';
         }
     }
 
@@ -107,7 +121,7 @@ class User extends \Core\Model
      *
      * @return boolean  True if a record already exists with the specified email, false otherwise
      */
-    protected function emailExists($email)
+    public static function emailExists($email)
     {
         $sql = 'SELECT * FROM users WHERE email = :email';
 

@@ -33,9 +33,14 @@ class Signup extends \Core\Controller
         $user = new User($_POST);
 
         if ($user->save()) {
+			
+			$user->sendActivationEmail();
+			
+			$user->assignDefaultPaymentMethods();
+			$user->assignDefaultIncomesCategory();
+			$user->assignDefaultExpensesCategory();
 
-            header('Location: http://' . $_SERVER['HTTP_HOST'] . '/signup/success', true, 303);
-            exit;
+			$this->redirect('/signup/success');
 
         } else {
 
@@ -55,4 +60,16 @@ class Signup extends \Core\Controller
     {
         View::renderTemplate('Sign Up/thank-you-for-registration.html');
     }
+	
+	public function activateAction()
+	{
+		User::activate($this->route_params['token']);
+		
+		$this->redirect('/signup/activated');
+	}
+	
+	public function activatedAction()
+	{
+		View::renderTemplate('Sign Up/succesActivated.html');
+	}
 }

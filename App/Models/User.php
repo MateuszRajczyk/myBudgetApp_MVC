@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use PDO;
+use App\Token;
+use App\Mail;
+use \Core\View;
 
 /**
  * Example user model
@@ -26,7 +29,7 @@ class User extends \Core\Model
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data = [])
     {
         foreach ($data as $key => $value) {
             $this->$key = $value;
@@ -45,9 +48,13 @@ class User extends \Core\Model
         if (empty($this->errors)) {
 
             $password_hash = password_hash(($this->password1), PASSWORD_DEFAULT);
+			
+			$token = new Token();
+			$hashedToken = $token->getHash();
+			$this->activationToken = $token->getValue();
 
-            $sql = 'INSERT INTO users (username, password, email)
-                    VALUES (:userName, :password_hash, :email)';
+            $sql = 'INSERT INTO users (username, password, email, activationHash)
+                    VALUES (:userName, :password_hash, :email, :activationHash)';
                                               
             $db = static::getDB();
             $stmt = $db->prepare($sql);
@@ -55,6 +62,7 @@ class User extends \Core\Model
             $stmt->bindValue(':userName', $this->userName, PDO::PARAM_STR);
 			$stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
             $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
+            $stmt->bindValue(':activationHash', $hashedToken, PDO::PARAM_STR);
             
                                           
             return $stmt->execute();
@@ -95,8 +103,14 @@ class User extends \Core\Model
         if (static::emailExists($this->email)) {
             $this->errors['ErrEmail3'] = 'Email already taken';
         }
+		
+		$this->validatePassword();
 
-        // Password
+    }
+	
+	protected function validatePassword()
+	{
+		// Password
         if ($this->password1 != $this->password2) {
             $this->errors['ErrPassword1'] = 'Entered passwords are not match!';
         }
@@ -112,7 +126,7 @@ class User extends \Core\Model
         if (preg_match('/.*\d+.*/', $this->password1) == 0) {
             $this->errors['ErrPassword4'] = 'Password needs at least one number';
         }
-    }
+	}
 
     /**
      * See if a user record already exists with the specified email
@@ -123,14 +137,246 @@ class User extends \Core\Model
      */
     public static function emailExists($email)
     {
-        $sql = 'SELECT * FROM users WHERE email = :email';
+		return static::findByEmail($email) !== false;
+    }
+	
+	public static function findByEmail($email)
+	{
+		$sql = 'SELECT * FROM users WHERE email = :email';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
 
+		$stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+		
         $stmt->execute();
 
-        return $stmt->fetch() !== false;
-    }
+        return $stmt->fetch();
+	}
+	
+	public static function authenticate($email, $password)
+	{
+		$user = static::findByEmail($email);
+		
+		if($user->isActive)
+		{
+			if(password_verify($password, $user->password))
+			{
+				return $user;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static function findByID($id)
+	{
+		$sql = 'SELECT * FROM users WHERE id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+		$stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+		
+        $stmt->execute();
+
+        return $stmt->fetch();
+	}
+	
+	public function rememberLogin()
+	{
+		$token = new Token();
+		
+		$hashedToken = $token->getHash();
+		$this->rememberToken = $token->getValue();
+		
+		$this->expiryTimestamp = time() + 60 * 60 * 24 * 30;  // 30 days from now
+		
+		$sql = 'INSERT INTO remembered_logins (tokenHash, userId, expiresAt) VALUES (:tokenHash, :userId, :expiresAt)';
+		
+		$db = static::getDB();
+		$stmt = $db->prepare($sql);
+		
+		$stmt->bindValue(':tokenHash', $hashedToken, PDO::PARAM_STR);
+		$stmt->bindValue(':userId', $this->id, PDO::PARAM_INT);
+		$stmt->bindValue(':expiresAt', date('Y-m-d H:i:s', $this->expiryTimestamp), PDO::PARAM_STR);
+		
+		return $stmt->execute();
+	}
+	
+	public static function sendPasswordReset($email)
+	{
+		$user = static::findByEmail($email);
+		
+		if($email)
+		{
+			if($user->startPasswordReset())
+			{
+				$user->sendPasswordResetEmail();
+			}
+		}
+	}
+	
+	protected function startPasswordReset()
+	{
+		$token = new Token();
+		
+		$hashedToken = $token->getHash();
+		
+		$this->passwordResetToken = $token->getValue();
+		
+		$expiryTimestamp = time() + 60 * 60 * 2; // 2 hours from now
+		
+		$sql = 'UPDATE users SET passwordResetHash = :tokenHash, passwordResetExp = :expiresAt WHERE id = :id';
+		
+		$db = static::getDB();
+		
+		$stmt = $db->prepare($sql);
+		
+		$stmt->bindValue(':tokenHash', $hashedToken, PDO::PARAM_STR);
+		$stmt->bindValue(':expiresAt', date('Y-m-d H:i:s', $expiryTimestamp), PDO::PARAM_STR);
+		$stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+		
+		return $stmt->execute();
+	}
+	
+	protected function sendPasswordResetEmail()
+	{
+		$url = 'http://'.$_SERVER['HTTP_HOST'].'/password/reset/'.$this->passwordResetToken;
+		
+		$message = View::getTemplate('Password/resetEmail.html', ['url' => $url]);
+		
+		Mail::send($this->email, 'Password reset', $message);
+	}
+	
+	public static function findByPasswordReset($token)
+	{
+		$token = new Token($token);
+		
+		$hashedToken = $token->getHash();
+		
+		$sql = 'SELECT * FROM users WHERE passwordResetHash = :tokenHash';
+		
+		$db = static::getDB();
+		
+		$stmt = $db->prepare($sql);
+		
+		$stmt->bindValue(':tokenHash', $hashedToken, PDO::PARAM_STR);
+		
+		$stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+		
+		$stmt->execute();
+		
+		$user = $stmt->fetch();
+		
+		if($user)
+		{
+			if((strtotime($user->passwordResetExp)) > time())
+			{
+				return $user;
+			}
+		}
+	}
+	
+	public function resetPassword($password1, $password2)
+	{
+		$this->password1 = $password1;
+		$this->password2 = $password2;
+		
+		$this->validatePassword();
+		
+		if (empty($this->errors))
+		{
+			$passwordHash = password_hash($this->password1, PASSWORD_DEFAULT);
+			
+			$sql = 'UPDATE users SET password = :passwordHash, 
+									 passwordResetHash = NULL,
+									 passwordResetExp = NULL
+								 WHERE id = :id';
+			$db = static::getDB();
+			$stmt = $db->prepare($sql);
+			
+			$stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+			$stmt->bindValue(':passwordHash', $passwordHash, PDO::PARAM_STR);
+			
+			return $stmt->execute();
+		}
+		
+		return false;
+	}
+	
+	public function sendActivationEmail()
+	{
+		$url = 'http://'.$_SERVER['HTTP_HOST'].'/signup/activate/'.$this->activationToken;
+		
+		$message = View::getTemplate('Sign Up/activationEmail.html', ['url' => $url]);
+		
+		Mail::send($this->email, 'Account activation - Home Budget', $message);
+	}
+	
+	public static function activate($value)
+	{
+		$token = new Token($value);
+		$hashedToken = $token->getHash();
+		
+		$sql = 'UPDATE users
+				SET isActive = 1, activationHash = NULL
+				WHERE  activationHash = :hashedToken';
+				
+		$db = static::getDB();
+		$stmt = $db->prepare($sql);
+		
+		$stmt->bindValue(':hashedToken', $hashedToken, PDO::PARAM_STR);
+		
+		$stmt->execute();
+	}
+	
+	public function assignDefaultPaymentMethods()
+	{
+		$sql = "INSERT INTO payment_methods_assigned_to_users(userId, name) 
+				SELECT users.id, payment_methods_default.name 
+				FROM users, payment_methods_default 
+				WHERE users.username= :username";
+				
+		$db = static::getDB();
+		$stmt = $db->prepare($sql);
+		
+		$stmt->bindValue(':username', $this->userName, PDO::PARAM_STR);
+		
+		return $stmt->execute();
+	}
+	
+	public function assignDefaultIncomesCategory()
+	{
+		$sql = "INSERT INTO incomes_category_assigned_to_users(userId, name) 
+				SELECT users.id, incomes_category_default.name 
+				FROM users, incomes_category_default 
+				WHERE users.username = :username";
+				
+		$db = static::getDB();
+		$stmt = $db->prepare($sql);
+		
+		$stmt->bindValue(':username', $this->userName, PDO::PARAM_STR);
+		
+		return $stmt->execute();
+	}
+	
+	public function assignDefaultExpensesCategory()
+	{
+		$sql = "INSERT INTO expenses_category_assigned_to_users(userId, name) 
+				SELECT users.id, expenses_category_default.name 
+				FROM users, expenses_category_default 
+				WHERE users.username= :username";
+				
+		$db = static::getDB();
+		$stmt = $db->prepare($sql);
+		
+		$stmt->bindValue(':username', $this->userName, PDO::PARAM_STR);
+		
+		return $stmt->execute();
+	}
+	
+	
 }

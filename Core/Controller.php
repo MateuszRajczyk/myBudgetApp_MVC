@@ -2,6 +2,9 @@
 
 namespace Core;
 
+use \App\Auth;
+use \App\Flash;
+
 /**
  * Base controller
  *
@@ -70,4 +73,22 @@ abstract class Controller
     protected function after()
     {
     }
+	
+	public function redirect($url)
+	{
+		header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
+		exit;
+	}
+	
+	public function requireLogin()
+	{
+		if (! Auth::getUser())
+		{
+			Flash::addMessage('Please login to access that page', Flash::INFO);
+			
+			Auth::rememberRequestedPage();
+			
+			$this->redirect('/');
+		}
+	}
 }

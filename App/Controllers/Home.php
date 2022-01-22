@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use \Core\View;
+use \App\Auth;
 
 /**
  * Home controller
@@ -19,6 +20,11 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
+		if(Auth::getUser())
+		{
+			$this->redirect(Auth::getReturnToPage());
+		}
+		
         View::renderTemplate('Home/index.html');
     }
 }

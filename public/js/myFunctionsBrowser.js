@@ -1,39 +1,49 @@
+function validateResetPassword()
+{
+	newValidMethods();
+	
+	$(document).ready(function() {
+		$('form').validate({
+			errorElement: 'div',
+			rules: {
+				password1: {
+					required: true,
+					minlength: 6,
+					passwordValidation: true
+				},
+				password2: {
+					required: true,
+					equalTo: '#passwordValid'
+				}
+					
+			},
+			messages: {
+				password1: {
+					required: 'Password is required',
+					minlength: 'Please enter at least 6 characters for the password',
+				},
+				password2: {
+					required: 'Password conformation is required',
+					equalTo: 'Entered passwords are not match!'
+				}
+			},
+			errorPlacement: function(error, element){
+				
+				if(element.attr('name') == 'password1') {
+					error.appendTo('.errorPassword')
+				}
+				if(element.attr('name') == 'password2') {
+					error.appendTo('.errorPasswordConfirmation')
+				}
+				
+			}
+		});
+	});
+}
+
 function validateSignUpForm()
 {
-	$.validator.addMethod('nameValidation',
-		function(value, element, param) {
-			
-            if (value != '') {
-                
-                if (value.match(/^[a-zA-Z0-9]+$/)) {
-                    
-                    return true;
-                }
-               }
-            return false;
-        },
-		'Name of user must have only letters and numbers'
-	);
-	
-	$.validator.addMethod('passwordValidation',
-		function(value, element, param) {
-			
-            if (value != '') {
-                
-                if (value.match(/.*[a-z]+.*/i) == null) {
-
-						return false;
-                }
-				if (value.match(/.*\d+.*/) == null) {
-
-						return false;
-                }
-
-               }
-            return true;
-        },
-		'Password needs letters and numbers'
-	);
+	newValidMethods();
 	
 	$(document).ready(function() {
 		$('form').validate({
@@ -102,6 +112,111 @@ function validateSignUpForm()
 		
 }
 
+function validateIncomeExpenseForm()
+{
+	
+	$(document).ready(function() {
+		$('#addIncomeForm').validate({
+			errorElement: 'div',
+			rules: {
+				amount: {
+					required: true,
+					number: true,
+					min: 0,
+					max: 9999999999.99,
+					step: 0.01
+				},
+				category: {
+					required: true
+				},	
+				comment: {
+					maxlength: 50,
+					commentValidation: true
+				},	
+			},
+			messages: {
+				amount: {
+					required: 'Amount is required',
+					number: 'Value must be a number with max 10 integers and 2 decimal characters',
+					min: 'Enter a value greater than 0',
+					max: 'Value must be a number with max 10 integers and 2 decimal characters'
+				},
+				category: {
+					required: 'Category is required'
+				},
+				comment: {
+					maxlength: 'Enter max 50 characters'
+				}
+			},
+			errorPlacement: function(error, element){
+				
+				if(element.attr('name') == 'amount' ) {
+					error.appendTo('.errorAmount')
+				}
+				if(element.attr('name') == 'category') {
+					error.appendTo('.errorCategory')
+				}
+				if(element.attr('name') == 'comment') {
+					error.appendTo('.errorComment')
+				}
+			}
+		});
+	});
+		
+}
+
+function newValidMethods()
+{
+	$.validator.addMethod('nameValidation',
+		function(value, element, param) {
+			
+            if (value != '') {
+                
+                if (value.match(/^[a-zA-Z0-9]+$/)) {
+                    
+                    return true;
+                }
+               }
+            return false;
+        },
+		'Name of user must have only letters and numbers'
+	);
+	
+	$.validator.addMethod('commentValidation',
+		function(value, element, param) {
+			
+            if (value != '') {
+                
+                if (value.match(/^[a-zA-Z0-9]+$/)) {
+                    
+                    return true;
+                }
+               }
+            return false;
+        },
+		'Comment must have only letters and numbers'
+	);
+	
+	$.validator.addMethod('passwordValidation',
+		function(value, element, param) {
+			
+            if (value != '') {
+                
+                if (value.match(/.*[a-z]+.*/i) == null) {
+
+						return false;
+                }
+				if (value.match(/.*\d+.*/) == null) {
+
+						return false;
+                }
+
+               }
+            return true;
+        },
+		'Password needs letters and numbers'
+	);
+}
 function showHidePassword()
 {
     $(".showHide").on('click',function() {

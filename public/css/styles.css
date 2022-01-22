@@ -464,3 +464,14 @@ div.errorValidation > div
 {
 	font-size: 16px;
 }
+
+.alert
+{
+	border: 1px solid #ccc;
+	padding: 6px;
+}
+
+.btn-close
+{
+	font-size: 12px;
+}

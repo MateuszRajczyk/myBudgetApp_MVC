@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Forgot Password{% endblock %}
+
+{% block body %}
+	<div class="bg-description">
+		<section class="container">
+			<div class="row justify-content-center">
+			
+				<form class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 px-4 pt-4 pb-4 my-4 bg-white formStart" method="post" action="/password/request-reset" id="formSignUp">
+					<div class="bg-header-fnc py-2 mb-4">
+						
+						Reset password
+					
+					</div>
+					
+					<div class="input-group-text">
+						<div class="inputIcon">
+							<i class="icon-mail-alt"></i>
+						</div>
+						
+						<input type="text" name="email" class="form-control" value="{{ user.email }}" placeholder="email@adress.com" onfocus="this.placeholder=''" onblur="this.placeholder='email@adress.com'" style="height: 40px" required>
+					</div>
+					
+					<button class="px-3 py-2 mt-4 mb-3 signButton" type="submit">
+						<i class="icon-user-add"></i>
+						Send password reset
+					</button>
+					
+				</form>
+			</div>
+		</section>
+	</div>
+
+	<footer class="mt-4 position-absolute bottom-0">
+			
+		All rights reserved 2021 &copy; myhomebudget.com Thank you for your visit!
+			
+	</footer>
+
+{% endblock %}

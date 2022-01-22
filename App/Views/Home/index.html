@@ -5,7 +5,7 @@
 {% block footer %}
 	
 	<script>
-	
+		showHidePassword();
 	</script>
 {% endblock %}
 
@@ -52,12 +52,12 @@
 				</div>
 				
 				
-				<form class="col-11 col-sm-9 col-md-5 col-lg-5 col-xl-5 bg-white p-4 mt-2 mb-2 formStart" action="signIn.php" method="post">
+				<form class="col-11 col-sm-9 col-md-5 col-lg-5 col-xl-5 bg-white p-4 mt-2 mb-2 formStart" action="/login/create" method="post">
 					<div class="input-group-text">
 						<div class="inputIcon">
 							<i class="icon-mail-alt"></i>
 						</div>
-						<input type="text" class="form-control" name="email" placeholder="email@adress.com" onfocus="this.placeholder=''" onblur="this.placeholder='email@adress.com'" style="height: 40px">
+						<input type="text" class="form-control" name="email" value="{{ email }}" placeholder="email@adress.com" onfocus="this.placeholder=''" onblur="this.placeholder='email@adress.com'" style="height: 40px" required>
 					</div>
 					
 					<div class="input-group-text">
@@ -67,19 +67,29 @@
 					
 						</div>
 					
-						<input type="password" id="myInput" class="form-control" name="password" placeholder="password" onfocus="this.placeholder=''" onblur="this.placeholder='password'" style="height: 40px">
+						<input type="password" id="myInput" class="form-control passwordShowHide" name="password" placeholder="password" onfocus="this.placeholder=''" onblur="this.placeholder='password'" style="height: 40px" required>
 					
-						<button type="button" class="inputIcon" id="toggler" onclick="showPassword()">
-					
-							<i class="icon-eye-1"></i>
-					
+						<button type="button" class="showHide inputIcon">
+						
+							<i class="icon-eye-1" id="toggler"></i>
+						
 						</button>
 					</div>
 					
+					<div class="text-danger text-start ps-3 errorName errorValidation">
+
+                        {% if email is defined %}
+							<div>Email or password is incorrect</div>
+                        {% endif %}
+					</div>
 					
 					<div class="input-group-text">
-						<input type="checkbox" name="remember" value="rememberMe" id="rememberMe" ><label for="rememberMe" class="ms-2">Remember me</label>
+						<label for="rememberMe" class="ms-2">
+							<input type="checkbox" name="rememberMe" {% if rememberMe %} checked="checked" {% endif %} id="rememberMe" class="me-1" />Remember me
+						</label>
 					</div>
+					
+
 					
 					<button class="px-3 py-2 mt-2 signButton" type="submit" >
 						<i class="icon-login"></i>
@@ -87,7 +97,7 @@
 					</button>
 					
 					<div class="mt-2 mb-3">
-						<a href="linkForgotPassword" class="forgotPassword">Forgot password?</a>
+						<a href="/password/forgot" class="forgotPassword">Forgot password?</a>
 					</div>
 					
 					

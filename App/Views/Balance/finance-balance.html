@@ -10,7 +10,6 @@
 {% endblock %}
 
 {% block body %}
-
 	<nav class="navbar navbar-light bg-navigation navbar-expand-lg mb-2">
 	
 		<button class="navbar-toggler ms-2 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Navigation toggler">
@@ -22,8 +21,8 @@
 				<div class="row ms-1 ">
 					<ul class="navbar-nav">
 					
-						<li class="nav-item disabled col-lg-2">
-							<a class="nav-link" href="user-main"><i class="icon-home"></i>Home</a>
+						<li class="nav-item col-lg-2">
+							<a class="nav-link" href="/usermenu/usermain"><i class="icon-home"></i>Home</a>
 						</li>
 						
 						<li class="nav-item col-lg-2">
@@ -34,14 +33,14 @@
 							<a class="nav-link" href="/expense/new"><i class="icon-dollar"></i>Add Expense</a>
 						</li>
 						
-						<li class="nav-item dropdown col-lg-2">
-							<a class="nav-link" href="" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie-alt" ></i>Show Balance</a>
+						<li class="nav-item disabled dropdown col-lg-2">
+							<a class="nav-link" href="#" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie-alt" ></i>Show Balance</a>
 							
-							<div class="dropdown-menu">
+							<div class="dropdown-menu" aria-labelledby="submenu">
 							
-								<a class="dropdown-item" href="/balance/current-month"> Current Month </a>
-								<a class="dropdown-item" href="/balance/last-month"> Last Month </a>
-								<a class="dropdown-item" href="/balance/current-year"> Current Year </a>
+								<a class="dropdown-item" href="/balance/current-month" > Current Month </a>
+								<a class="dropdown-item" href="/balance/last-month" > Last Month </a>
+								<a class="dropdown-item" href="/balance/current-year" > Current Year </a>
 								<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#dateModal"> Selected Period </a>
 							
 							</div>
@@ -105,7 +104,6 @@
 								
 								<input class="form-control" type="date" name="date2" value="">
 							</div>
-							
 						</div>
 					</div>
 					
@@ -119,21 +117,75 @@
 		</div>
 	
 	</div>
-	
-	<div class="bg-description">
-		<div class="p-2 nameLabel">Hello {{ current_user.username }} !</div>
-		<section class="container-fluid ">
-			<div class="row justify-content-center g-0" >
-				<img src="/img/backg.jpg" id="backgroundImage" class="mt-2 mb-2" alt="background image, computer to menage finances"/>
-			</div>
+
+
+	<div class="bg-description-showBalance">
+		<section class="container-fluid">
+			<div class="row ">
+				<div class="col-12 mt-2 ">
+					<h5>
+					
+						<span class="chosenTimePeriod" >{{ financeData.startDate|date("d.m.Y") }}</span>
+						
+						-
+						
+						<span class="chosenTimePeriod" >{{ financeData.endDate|date("d.m.Y") }}</span>
+					
+					
+					</h5>
+					
+					<div class="btn-group choiceTimeButton me-4 mt-1">
+						<button class="btn dropdown-toggle  " type="button" id="submenu" data-bs-toggle="dropdown" ><i class="icon-calendar"></i>Choose date</button>
+						
+						<div class="dropdown-menu dropdown-menu-end" aria-labelledby="submenu">
+							<a class="dropdown-item" href="/balance/current-month">Current Month</a>
+							<a class="dropdown-item" href="/balance/last-month">Last Month</a>
+							<a class="dropdown-item" href="/balance/current-year">Current Year</a>
+							<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#dateModal">Selected period</a>
+						</div>
+					</div>
+				</div>
+			</div>	
 		</section>
-	</div>
+	</div>	
+
+	<div class="container-fluid container-lg">
+		<div class="row justify-content-center">
 
 		
-	<footer class="mt-4">
+				<div class="p-1 tIncomeExpense col-5 me-3 mt-3">Incomes</div>
+
+				<table class="table table-bordered mb-0">
+				<tr style='font-weight: 700;'>
+						<td>Category</td>
+						<td scope='col'>Date</td>
+						<td scope='col'>Amount</td>
+						<td scope='col'>Comment</td>
+					</tr>
+
+			
+
+				
+				<div class="tIncomeExpense p-1 col-5 ms-3 mt-3">Expenses</div>
+				
+				<table class="table table-bordered mb-0">
+				
+						
+
+		</div>
+	
+	
+		<div class="row justify-content-center">
+			<div class="financeBalance col-5 col-md-4 col-lg-3 mt-5 p-2" style="border-radius: 5px">
+
+		</div>
+
+	</div>
+	
+	<footer class="mt-5">
 		
 		All rights reserved 2021 &copy; myhomebudget.com Thank you for your visit!
 		
 	</footer>
-		
+	
 {% endblock %}

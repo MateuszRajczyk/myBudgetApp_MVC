@@ -23,7 +23,7 @@ class addExpense extends \Core\Model
 		
 		if(empty($this->errorAddExpense))
 		{
-			$sql = 'INSERT INTO expenses (userId, amount, expenseCategoryAssignedToUserId ,expenseComment, dateOfExpense) VALUES (:userId, :amount, (SELECT id FROM expenses_category_assigned_to_users WHERE name=:categoryName) ,:expenseComment, :dateExpense)';
+			$sql = 'INSERT INTO expenses (userId, amount, expenseCategoryAssignedToUserId , paymentMethodAssignedToUserId,expenseComment, dateOfExpense) VALUES (:userId, :amount, (SELECT id FROM expenses_category_assigned_to_users WHERE name=:categoryName), (SELECT id FROM payment_methods_assigned_to_users WHERE name=:paymentName) ,:expenseComment, :dateExpense)';
 
 			$db = static::getDB();
 			
@@ -32,6 +32,7 @@ class addExpense extends \Core\Model
 			$stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
 			$stmt->bindValue(':amount', $this->amount, PDO::PARAM_STR);
 			$stmt->bindValue(':categoryName', $this->category, PDO::PARAM_STR);
+			$stmt->bindValue(':paymentName', $this->payment, PDO::PARAM_STR);
 			$stmt->bindValue(':expenseComment', $this->comment, PDO::PARAM_STR);
 			$stmt->bindValue(':dateExpense', $this->date, PDO::PARAM_STR);
 			
@@ -58,6 +59,21 @@ class addExpense extends \Core\Model
 		return $stmt->fetchAll();
 	}
 	
+	public static function expensePaymentName()
+	{
+		$sql = 'SELECT * FROM payment_methods_assigned_to_users WHERE userId = :userId ';
+		
+		$db = static::getDB();
+		
+		$stmt = $db->prepare($sql);
+		
+		$stmt->bindParam(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+	
+		$stmt->execute();
+		
+		return $stmt->fetchAll();
+	}
+	
 	public function validateExpenseForm()
     {
         // Amount
@@ -68,6 +84,11 @@ class addExpense extends \Core\Model
 		// Category income
         if (!isset($this->category)) {
             $this->errorAddExpense['ErrCategory'] = 'Category field is required';
+        }
+		
+		// Payment method
+        if (!isset($this->payment)) {
+            $this->errorAddExpense['ErrPayment'] = 'Payment method field is required';
         }
 		
 		// Comments

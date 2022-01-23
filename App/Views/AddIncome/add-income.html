@@ -5,8 +5,13 @@
 {% block footer %}
 	
 	<script>
-		validateIncomeExpenseForm();
-
+		validateItemForm();
+		
+		//$("#buttonSub").on('click', function(e){
+		//	$('#incomeModalSuccess').modal('show');
+			//e.preventDefault();
+		//});
+		
 	</script>
 {% endblock %}
 
@@ -40,9 +45,9 @@
 							
 							<div class="dropdown-menu" aria-labelledby="submenu">
 							
-								<a class="dropdown-item" href="current-month"> Current Month </a>
-								<a class="dropdown-item" href="last-month"> Last Month </a>
-								<a class="dropdown-item" href="current-year"> Current Year </a>
+								<a class="dropdown-item" href="/balance/current-month"> Current Month </a>
+								<a class="dropdown-item" href="/balance/last-month"> Last Month </a>
+								<a class="dropdown-item" href="/balance/current-year"> Current Year </a>
 								<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#dateModal"> Selected Period </a>
 							
 							</div>
@@ -172,7 +177,7 @@
 		<section class="container">
 			<div class="row justify-content-center">
 			
-				<form class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 px-4 pt-4 pb-4 my-4 bg-white formStart" method="post" action="/income/add" id="addIncomeForm">
+				<form class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 px-4 pt-4 pb-4 my-4 bg-white formStart" method="post" action="/income/add" id="addItemForm">
 				
 					<div class="bg-header-fnc py-2 mb-4">
 						
@@ -185,7 +190,7 @@
 							Amount
 						</div>
 						
-						<input class="form-control" type="number" step="0.01" name="amount" value="{{ income.amount }}">
+						<input class="form-control" type="number" step="0.01" name="amount" value="{{ income.amount }}" required>
 					</div>
 					
 					<div class="text-danger text-start ps-3 errorAmount errorValidation">
@@ -201,7 +206,7 @@
 							Date
 						</div>
 						
-						<input class="form-control" type="date" name="date" value="{{ addIncome.date ? addIncome.date : current_date }}" required>
+						<input class="form-control" type="date" name="date" value="{{ income.date ? income.date : current_date }}" required>
 					</div>
 					
 					<div class="input-group-text">
@@ -209,7 +214,7 @@
 							Category
 						</div>
 						
-						<select class="form-select userChoice" name="category" >
+						<select class="form-select userChoice" name="category" required>
 					
 							<option value="" disabled hidden selected>- select category -</option>
 							

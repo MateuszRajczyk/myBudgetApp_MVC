@@ -5,7 +5,7 @@
 {% block footer %}
 	
 	<script>
-		validateIncomeExpenseForm();
+		validateItemForm();
 
 	</script>
 {% endblock %}
@@ -40,9 +40,9 @@
 							
 							<div class="dropdown-menu" aria-labelledby="submenu">
 							
-								<a class="dropdown-item" href="current-month"> Current Month </a>
-								<a class="dropdown-item" href="last-month"> Last Month </a>
-								<a class="dropdown-item" href="current-year"> Current Year </a>
+								<a class="dropdown-item" href="/balance/current-month"> Current Month </a>
+								<a class="dropdown-item" href="/balance/last-month"> Last Month </a>
+								<a class="dropdown-item" href="/balance/current-year"> Current Year </a>
 								<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#dateModal"> Selected Period </a>
 							
 							</div>
@@ -172,7 +172,7 @@
 		<section class="container">
 			<div class="row justify-content-center">
 			
-				<form class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 px-4 pt-4 pb-4 my-4 bg-white formStart" method="post" action="/expense/add" id="addForm">
+				<form class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 px-4 pt-4 pb-4 my-4 bg-white formStart" method="post" action="/expense/add" id="addItemForm">
 				
 					<div class="bg-header-fnc py-2 mb-4">
 						
@@ -185,7 +185,7 @@
 							Amount
 						</div>
 						
-						<input class="form-control" type="number" step="0.01" name="amount" value="{{ expense.amount }}">
+						<input class="form-control" type="number" step="0.01" name="amount" value="{{ expense.amount }}" required>
 					</div>
 					
 					<div class="text-danger text-start ps-3 errorAmount errorValidation">
@@ -206,10 +206,39 @@
 					
 					<div class="input-group-text">
 						<div class="descriptionLabel px-2">
+							Payment Method
+						</div>
+					
+						<select class="form-select userChoice" name="payment" required>
+						
+							<option value="" disabled hidden selected>- payment method -</option>
+							
+							{% for payment in paymentMethod %}
+								{% if expense.payment is defined and expense.payment == payment.name %}
+									<option selected value="{{ expense.payment }}" >{{ payment.name }}</option>
+								{% else %}
+									<option>{{ payment.name }}</option>	
+								{% endif %}
+
+							{% endfor %}
+						</select>
+							
+					</div>
+					
+					<div class="text-danger text-start ps-3 errorPayment errorValidation">
+
+                        {% if expense.errorAddExpense['ErrPayment'] is defined %}
+							<div>{{ expense.errorAddExpense['ErrPayment'] }}</div>
+                        {% endif %}
+
+					</div>
+					
+					<div class="input-group-text">
+						<div class="descriptionLabel px-2">
 							Category
 						</div>
 						
-						<select class="form-select userChoice" name="category" >
+						<select class="form-select userChoice" name="category" required>
 					
 							<option value="" disabled hidden selected>- select category -</option>
 							

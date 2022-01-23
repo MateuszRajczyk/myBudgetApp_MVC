@@ -9,6 +9,7 @@ use \App\Models\addIncome;
 class Income extends Authenticated
 {
 	protected $incomeCategory;
+	protected $isSended;
 	
 	protected function before()
 	{

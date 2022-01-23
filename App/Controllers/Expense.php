@@ -13,12 +13,13 @@ class Expense extends Authenticated
 	protected function before()
 	{
 		$this->expenseCategory = addExpense::ExpenseCategoryName();
+		$this->paymentMethod = addExpense::ExpensePaymentName();
 	}
 	
 	public function newAction()
 	{
 		
-		View::renderTemplate('AddExpense/add-expense.html', ['expenseCategory' => $this->expenseCategory]);
+		View::renderTemplate('AddExpense/add-expense.html', ['expenseCategory' => $this->expenseCategory, 'paymentMethod' => $this->paymentMethod]);
 	}
 	
 	public function addAction()

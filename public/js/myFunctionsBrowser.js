@@ -112,11 +112,10 @@ function validateSignUpForm()
 		
 }
 
-function validateIncomeExpenseForm()
+function validateItemForm()
 {
-	
 	$(document).ready(function() {
-		$('#addIncomeForm').validate({
+		$('#addItemForm').validate({
 			errorElement: 'div',
 			rules: {
 				amount: {
@@ -128,11 +127,10 @@ function validateIncomeExpenseForm()
 				},
 				category: {
 					required: true
-				},	
-				comment: {
-					maxlength: 50,
-					commentValidation: true
-				},	
+				},
+				payment: {
+					required: true
+				}
 			},
 			messages: {
 				amount: {
@@ -144,9 +142,9 @@ function validateIncomeExpenseForm()
 				category: {
 					required: 'Category is required'
 				},
-				comment: {
-					maxlength: 'Enter max 50 characters'
-				}
+				payment: {
+					required: 'Payment method is required'
+				}			
 			},
 			errorPlacement: function(error, element){
 				
@@ -156,8 +154,8 @@ function validateIncomeExpenseForm()
 				if(element.attr('name') == 'category') {
 					error.appendTo('.errorCategory')
 				}
-				if(element.attr('name') == 'comment') {
-					error.appendTo('.errorComment')
+				if(element.attr('name') == 'payment') {
+					error.appendTo('.errorPayment')
 				}
 			}
 		});

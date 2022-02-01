@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Auth;
+use \App\Flash;
 use \App\Models\addIncome;
 
 class Income extends Authenticated
@@ -18,7 +19,6 @@ class Income extends Authenticated
 	
 	public function newAction()
 	{
-		
 		View::renderTemplate('AddIncome/add-income.html', ['incomeCategory' => $this->incomeCategory]);
 	}
 	
@@ -29,6 +29,7 @@ class Income extends Authenticated
 		
 		if($income->sendIncomeToDB())
 		{
+			Flash::addMessage('The income which you entered has been successfully added.');
 			$this->redirect('/income/new');
 		}
 		else

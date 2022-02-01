@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Auth;
+use \App\Flash;
 use \App\Models\addExpense;
 
 class Expense extends Authenticated
@@ -29,6 +30,7 @@ class Expense extends Authenticated
 		
 		if($expense->sendExpenseToDB())
 		{
+			Flash::addMessage('The expense which you entered has been successfully added.');
 			$this->redirect('/expense/new');
 		}
 		else

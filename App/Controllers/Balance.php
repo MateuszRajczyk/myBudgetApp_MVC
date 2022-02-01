@@ -36,6 +36,15 @@ class Balance extends Authenticated
 		View::renderTemplate('Balance/finance-balance.html', ['financeData' => $currentYearData]);
 	}
 	
+	public function selectPeriodAction()
+	{
+		$selectPeriodData = new searchFinance($_POST);
+		
+		$selectPeriodData->selectPeriod();
+		
+		View::renderTemplate('Balance/finance-balance.html', ['financeData' => $selectPeriodData]);
+	}
+	
 	
 	
 

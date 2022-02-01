@@ -79,44 +79,7 @@
 	</nav>
 
 
-	<div class="modal hide fade in" tabindex="-1" role="dialog" id="dateModal">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title">Select time period</h3>
-					
-					<button type="button" class="close closeButton" data-bs-dismiss="modal">x</button>
-				</div>
-				
-				<form class="mx-auto" method="post" action="selected-period">
-					<div class="modal-body">
-						<h5>Select a start date and end date for look at balance in choosing time period</h5>
-						
-						<div class="row justify-content-center">
-							<div class="form-group col-5 mt-3 mb-3">
-								<span>Start date</span>
-								
-								<input class="form-control" type="date" name="date1" value="">
-							</div>
-							
-							<div class="form-group col-5 mt-3 mb-3">
-								<span>End date</span>
-								
-								<input class="form-control" type="date" name="date2" value="">
-							</div>
-						</div>
-					</div>
-					
-					<div class="modal-footer mt-2 mb-2">
-						<button class="btn footerButtons" type="submit">Save</button>
-						
-						<button type="button" class="btn footerButtons" data-bs-dismiss="modal">Close</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	
-	</div>
+	{{ include('selectPeriod.html') }}
 
 
 	<div class="bg-description-showBalance">
@@ -150,39 +113,108 @@
 	</div>	
 
 	<div class="container-fluid container-lg">
-		<div class="row justify-content-center">
-
-		
-				<div class="p-1 tIncomeExpense col-5 me-3 mt-3">Incomes</div>
-
-				<table class="table table-bordered mb-0">
-				<tr style='font-weight: 700;'>
-						<td>Category</td>
-						<td scope='col'>Date</td>
-						<td scope='col'>Amount</td>
-						<td scope='col'>Comment</td>
-					</tr>
-
-			
-
+		<div class="row justify-content-center mt-3">
+			<div class="table-responsive col-6"> 
+				<table class="table table-bordered mb-0 caption-top table-sm">
 				
-				<div class="tIncomeExpense p-1 col-5 ms-3 mt-3">Expenses</div>
-				
-				<table class="table table-bordered mb-0">
-				
+						<thead>
+							{% if financeData.allIncomes is not empty %}
+								<tr>
+									<th>Category</th>
+									<th>Amount</th>
+									<th>Date</th>
+									<th>Comment</th>
+								</tr>
+							{% endif %}
+						</thead>
+
+						<tbody>
+							{% for Income in financeData.allIncomes %}
+								<tr>
+									<td>{{ Income['name'] }}</td>
+									<td>{{ Income['amount'] }}</td>
+									<td>{{ Income['dateOfIncome'] }}</td>
+									{% if Income['incomeComment'] is not empty %}
+										<td>{{ Income['incomeComment'] }}</td>
+									{% else %}
+										<td>-</td>
+									{% endif %}
+									
+								</tr>
+							
+							{% endfor %}
+							
+							<caption style="border-style: none;">Incomes</caption>
+
+							<tr class="summary table-dark">
+								<td class="total">TOTAL</td>
+								<td class="sum" colspan="3">{{ financeData.countIncomes }} PLN</td>
+							</tr>
+						</tbody>
+				</table>
+			</div>
+
+			<div class="table-responsive col-6"> 
+				<table class="table table-bordered mb-0 caption-top table-sm" >
+
+
+					<thead>
+						{% if financeData.allExpenses is not empty %}
+							<tr>
+								<th>Category</th>
+								<th>Amount</th>
+								<th>Date</th>
+								<th>Comment</th>
+							</tr>
+						{% endif %}
+					</thead>
+					
+					<tbody>
+						{% for Expense in financeData.allExpenses %}
+							<tr>
+								<td>{{ Expense['name'] }}</td>
+								<td>{{ Expense['amount'] }}</td>
+								<td>{{ Expense['dateOfExpense'] }}</td>
+								{% if Expense['expenseComment'] is not empty %}
+									<td>{{ Expense['expenseComment'] }}</td>
+								{% else %}
+									<td>-</td>
+								{% endif %}
+							</tr>
 						
-
+						{% endfor %}
+						
+						<caption style="border-style: none;">Expense</caption>
+						
+						<tr class="summary table-dark">
+							<td class="total">TOTAL</td>
+							<td class="sum" colspan="3">{{ financeData.countExpenses}} PLN</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
 		</div>
-	
-	
-		<div class="row justify-content-center">
-			<div class="financeBalance col-5 col-md-4 col-lg-3 mt-5 p-2" style="border-radius: 5px">
 
-		</div>
+
 
 	</div>
 	
-	<footer class="mt-5">
+	<div class="row justify-content-center col-12">
+		<div class="financeBalance col-5 col-md-4 col-lg-3 mt-5 p-2 row justify-content-center" style="border-radius: 5px">
+				<div>Balance: {{ financeData.balance }} PLN</div>
+		</div>
+				{% if financeData.balance < 0 %}
+					<div class='p-3' style='color:#cf1919; font-weight: 700; font-size: 18px;'>You are losing money! Improve your money management and start saving!</div>
+				{% elseif financeData.balance > 0 %}
+					<div class='p-3' style='color:#31ad39; font-weight: 700;font-size: 18px;'>Perfect, you have savings! Keep it up!</div>
+				{% else %}
+					<div class='p-3' style='color:#4f4646; font-weight: 700; font-size: 18px;'>No losses and no savings!</div>
+				{% endif %}
+		
+	</div>
+	
+	<footer class="mt-auto">
 		
 		All rights reserved 2021 &copy; myhomebudget.com Thank you for your visit!
 		

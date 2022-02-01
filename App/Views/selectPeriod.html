@@ -1,0 +1,38 @@
+	<div class="modal hide fade in" tabindex="-1" role="dialog" id="dateModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Select time period</h3>
+					
+					<button type="button" class="close closeButton" data-bs-dismiss="modal">x</button>
+				</div>
+				
+				<form class="mx-auto" method="post" action="/balance/select-period">
+					<div class="modal-body">
+						<h5>Select a start date and end date for look at balance in choosing time period</h5>
+						
+						<div class="row justify-content-center">
+							<div class="form-group col-5 mt-3 mb-3">
+								<span>Start date</span>
+								
+								<input class="form-control" type="date" name="date1" value="{{ financeData.date1 ? financeData.date1 : current_date }}">
+							</div>
+							
+							<div class="form-group col-5 mt-3 mb-3">
+								<span>End date</span>
+								
+								<input class="form-control" type="date" name="date2" value="{{ financeData.date2 ? financeData.date2 : current_date }}">
+							</div>
+						</div>
+					</div>
+					
+					<div class="modal-footer mt-2 mb-2">
+						<button class="btn footerButtons" type="submit">Save</button>
+						
+						<button type="button" class="btn footerButtons" data-bs-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	
+	</div>

@@ -374,11 +374,19 @@ ul > li > div > a:hover
 	border-radius: 5px;
 }
 
-.tIncomeExpense
+caption
 {
+	color: #000000;
 	border-radius: 5px;
 	font-weight: 800;
 	font-size: 22px;
+	background-color: rgba(128, 29, 143, 0.6);
+	text-align: center;
+
+}
+
+tr.summary
+{
 	background-color: rgba(128, 29, 143, 0.6);
 }
 

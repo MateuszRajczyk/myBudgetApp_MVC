@@ -212,7 +212,7 @@ class User extends \Core\Model
 	{
 		$user = static::findByEmail($email);
 		
-		if($email)
+		if($user)
 		{
 			if($user->startPasswordReset())
 			{

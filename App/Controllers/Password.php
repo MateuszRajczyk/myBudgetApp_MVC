@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\User;
+use \App\Flash;
 
 class Password extends \Core\Controller
 {
@@ -14,9 +15,16 @@ class Password extends \Core\Controller
 	
 	public function requestResetAction()
 	{
-		User::sendPasswordReset($_POST['email']);
+		if(User::sendPasswordReset($_POST['email']))
+		{
 		
-		View::renderTemplate('Password/checkEmailBox.html');
+			View::renderTemplate('Password/checkEmailBox.html');
+		}
+		else
+		{
+			Flash::addMessage('Message was not send to '.$_POST['email'].' because the account does not exist', Flash::WARNING);
+			View::renderTemplate('Password/forgot.html');
+		}
 	}
 	
 	public function resetAction()

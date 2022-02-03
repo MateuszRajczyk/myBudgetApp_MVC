@@ -159,15 +159,17 @@ class User extends \Core\Model
 	{
 		$user = static::findByEmail($email);
 		
-		if($user->isActive)
+		if($user)
 		{
 			if(password_verify($password, $user->password))
 			{
 				return $user;
 			}
 		}
-		
-		return false;
+		else
+		{
+			return false;
+		}
 	}
 	
 	public static function findByID($id)

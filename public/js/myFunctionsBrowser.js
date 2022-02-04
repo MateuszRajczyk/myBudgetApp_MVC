@@ -10,10 +10,6 @@ function validateResetPassword()
 					required: true,
 					minlength: 6,
 					passwordValidation: true
-				},
-				password2: {
-					required: true,
-					equalTo: '#passwordValid'
 				}
 					
 			},
@@ -21,19 +17,12 @@ function validateResetPassword()
 				password1: {
 					required: 'Password is required',
 					minlength: 'Please enter at least 6 characters for the password',
-				},
-				password2: {
-					required: 'Password conformation is required',
-					equalTo: 'Entered passwords are not match!'
 				}
 			},
 			errorPlacement: function(error, element){
 				
 				if(element.attr('name') == 'password1') {
 					error.appendTo('.errorPassword')
-				}
-				if(element.attr('name') == 'password2') {
-					error.appendTo('.errorPasswordConfirmation')
 				}
 				
 			}
@@ -64,10 +53,6 @@ function validateSignUpForm()
 					required: true,
 					minlength: 6,
 					passwordValidation: true
-				},
-				password2: {
-					required: true,
-					equalTo: '#passwordValid'
 				}
 					
 			},
@@ -85,10 +70,6 @@ function validateSignUpForm()
 				password1: {
 					required: 'Password is required',
 					minlength: 'Please enter at least 6 characters for the password',
-				},
-				password2: {
-					required: 'Password conformation is required',
-					equalTo: 'Entered passwords are not match!'
 				}
 			},
 			errorPlacement: function(error, element){
@@ -101,9 +82,6 @@ function validateSignUpForm()
 				}
 				if(element.attr('name') == 'password1') {
 					error.appendTo('.errorPassword')
-				}
-				if(element.attr('name') == 'password2') {
-					error.appendTo('.errorPasswordConfirmation')
 				}
 				
 			}

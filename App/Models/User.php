@@ -111,9 +111,6 @@ class User extends \Core\Model
 	protected function validatePassword()
 	{
 		// Password
-        if ($this->password1 != $this->password2) {
-            $this->errors['ErrPassword1'] = 'Entered passwords are not match!';
-        }
 
         if (strlen($this->password1) < 6) {
             $this->errors['ErrPassword2'] = 'Please enter at least 6 characters for the password';
@@ -283,10 +280,9 @@ class User extends \Core\Model
 		}
 	}
 	
-	public function resetPassword($password1, $password2)
+	public function resetPassword($password1)
 	{
 		$this->password1 = $password1;
-		$this->password2 = $password2;
 		
 		$this->validatePassword();
 		

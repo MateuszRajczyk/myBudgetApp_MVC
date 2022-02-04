@@ -217,6 +217,7 @@ class User extends \Core\Model
 			if($user->startPasswordReset())
 			{
 				$user->sendPasswordResetEmail();
+				return true;
 			}
 		}
 	}
@@ -250,11 +251,7 @@ class User extends \Core\Model
 		
 		$message = View::getTemplate('Password/resetEmail.html', ['url' => $url]);
 		
-		$headers[] = 'MIME-Version: 1.0';
-		$headers[] = 'Content-type: text/html; charset=UTF-8';
-		$headers[] = 'From <owner@finbudget.com>';
-		
-		Mail::send($this->email, 'Password reset', $message, implode("\r\n", $headers));
+		Mail::send($this->email, 'Password reset', $message);
 	}
 	
 	public static function findByPasswordReset($token)
@@ -319,11 +316,7 @@ class User extends \Core\Model
 		
 		$message = View::getTemplate('Sign Up/activationEmail.html', ['url' => $url]);
 		
-		$headers[] = 'MIME-Version: 1.0';
-		$headers[] = 'Content-type: text/html; charset=UTF-8';
-		$headers[] = 'From <owner@finbudget.com>';
-		
-		Mail::send($this->email, 'Account activation - Home Budget', $message, implode("\r\n", $headers));
+		Mail::send($this->email, 'Account activation - Home Budget', $message);
 	}
 	
 	public static function activate($value)

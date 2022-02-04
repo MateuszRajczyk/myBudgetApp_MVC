@@ -42,7 +42,7 @@ class Config
 	
 	const SECRET_KEY = 'E3MDjigrUAfoP1yPVglatmLCxnkVas7h';
 	
-	const USERNAME_GMAIL = 'mateuszrajczyk96@gmail.com';
+	const USERNAME_GMAIL = 'myfinbudget@gmail.com';
 	
-	const PASSWORD_GMAIL = 'Babunia155!';
+	const PASSWORD_GMAIL = 'smtpServer';
 }

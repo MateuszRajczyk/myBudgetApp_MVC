@@ -15,9 +15,8 @@ class Password extends \Core\Controller
 	
 	public function requestResetAction()
 	{
-		if(User::sendPasswordReset($_POST['email']))
+		if(User::sendPasswordReset($_POST['email']) == true)
 		{
-		
 			View::renderTemplate('Password/checkEmailBox.html');
 		}
 		else

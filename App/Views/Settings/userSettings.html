@@ -5,7 +5,7 @@
 {% block footer %}
 	
 	<script>
-	
+		
 	</script>
 {% endblock %}
 
@@ -22,8 +22,8 @@
 				<div class="row ms-1 ">
 					<ul class="navbar-nav">
 					
-						<li class="nav-item disabled col-lg-2">
-							<a class="nav-link" href="user-main"><i class="icon-home"></i>Home</a>
+						<li class="nav-item col-lg-2">
+							<a class="nav-link" href="/usermenu/usermain"><i class="icon-home"></i>Home</a>
 						</li>
 						
 						<li class="nav-item col-lg-2">
@@ -35,9 +35,9 @@
 						</li>
 						
 						<li class="nav-item dropdown col-lg-2">
-							<a class="nav-link" href="" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie-alt" ></i>Show Balance</a>
+							<a class="nav-link" href="#" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie-alt" ></i>Show Balance</a>
 							
-							<div class="dropdown-menu">
+							<div class="dropdown-menu" aria-labelledby="submenu">
 							
 								<a class="dropdown-item" href="/balance/current-month"> Current Month </a>
 								<a class="dropdown-item" href="/balance/last-month"> Last Month </a>
@@ -48,21 +48,21 @@
 							
 						</li>
 						
-						<li class="nav-item dropdown col-lg-2">
+						<li class="nav-item disabled dropdown col-lg-2">
 							<a class="nav-link" href="#" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-cog"></i>Settings</a>
 							
 							<div class="dropdown-menu" aria-labelledby="submenu">
 							
-								<a class="dropdown-item" href="/settings/userSet"> User </a>
+								<a class="dropdown-item" href="#"> User </a>
 								
 								<div class="dropdown-divider"></div>
 								
-								<a class="dropdown-item" href="/settings/incomeSet"> Income </a>
-								<a class="dropdown-item" href="/settings/expenseSet"> Expense </a>
+								<a class="dropdown-item" href="#"> Income </a>
+								<a class="dropdown-item" href="#"> Expense </a>
 								
 								<div class="dropdown-divider"></div>
 								
-								<a class="dropdown-item" href="/settings/paymentSet"> Payment Methods </a>
+								<a class="dropdown-item" href="#"> Payment Methods </a>
 							
 							</div>
 							
@@ -79,20 +79,27 @@
 	
 	</nav>
 
-
 	{{ include('selectPeriod.html') }}
 	
+	
 	<div class="bg-description">
-		<div class="p-2 nameLabel">Hello {{ current_user.username }} !</div>
-		<section class="container-fluid ">
-			<div class="row justify-content-center g-0" >
-				<img src="/img/backg.jpg" id="backgroundImage" class="mt-2 mb-2" alt="background image, computer to menage finances"/>
+		<section class="container">
+			<div class="row justify-content-center">
+				
+				<nav>
+					
+				</nav>
+				
+				<form class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 px-4 pt-4 pb-4 my-4 bg-white formStart" method="post" action="/income/add" id="addItemForm">
+				
+
+					
+				</form>
 			</div>
 		</section>
 	</div>
-
 		
-	<footer class="mt-4">
+	<footer>
 		
 		All rights reserved 2021 &copy; myhomebudget.com Thank you for your visit!
 		

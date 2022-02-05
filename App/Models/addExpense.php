@@ -23,7 +23,8 @@ class addExpense extends \Core\Model
 		
 		if(empty($this->errorAddExpense))
 		{
-			$sql = 'INSERT INTO expenses (userId, amount, expenseCategoryAssignedToUserId , paymentMethodAssignedToUserId,expenseComment, dateOfExpense) VALUES (:userId, :amount, (SELECT id FROM expenses_category_assigned_to_users WHERE name=:categoryName), (SELECT id FROM payment_methods_assigned_to_users WHERE name=:paymentName) ,:expenseComment, :dateExpense)';
+			$sql = 'INSERT INTO expenses (userId, amount, expenseCategoryAssignedToUserId , paymentMethodAssignedToUserId,expenseComment, dateOfExpense) 
+					VALUES (:userId, :amount, (SELECT id FROM expenses_category_assigned_to_users WHERE name=:categoryName AND userId=:userId), (SELECT id FROM payment_methods_assigned_to_users WHERE name=:paymentName AND userId=:userId) ,:expenseComment, :dateExpense)';
 
 			$db = static::getDB();
 			

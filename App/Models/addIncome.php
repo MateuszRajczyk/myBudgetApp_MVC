@@ -23,7 +23,8 @@ class addIncome extends \Core\Model
 		
 		if(empty($this->errorAddIncome))
 		{
-			$sql = 'INSERT INTO incomes (userId, amount, incomeCategoryAssignedToUserId ,incomeComment, dateOfIncome) VALUES (:userId, :amount, (SELECT id FROM incomes_category_assigned_to_users WHERE name=:categoryName) ,:incomeComment, :dateIncome)';
+			$sql = 'INSERT INTO incomes (userId, amount, incomeCategoryAssignedToUserId ,incomeComment, dateOfIncome) 
+					VALUES (:userId, :amount, (SELECT id FROM incomes_category_assigned_to_users WHERE name=:categoryName AND userId=:userId) ,:incomeComment, :dateIncome)';
 
 			$db = static::getDB();
 			

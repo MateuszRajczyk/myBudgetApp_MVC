@@ -18,7 +18,7 @@
 	
 </head>
 
-<body style="background-image: url('/img/ripples.png')">
+<body style="background-image: url('/img/ripples.png')" class="d-flex flex-column min-vh-100">
 	<div class="container">
 		{% for message in flash_messages %}
 		
@@ -62,6 +62,13 @@
 	<script src="/js/myFunctionsBrowser.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+	
+	
+	<footer class="mt-auto">
+		
+		All rights reserved 2021 &copy; myhomebudget.com Thank you for your visit!
+		
+	</footer>
 	
 	{% block footer %}
     {% endblock %}

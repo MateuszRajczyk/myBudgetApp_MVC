@@ -160,6 +160,7 @@ class User extends \Core\Model
 		{
 			if(password_verify($password, $user->password))
 			{
+				$_SESSION['password'] = $password;
 				return $user;
 			}
 		}

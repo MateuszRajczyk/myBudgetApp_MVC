@@ -4,9 +4,9 @@
 
 {% block footer %}
 	
-	<script>
-		
-	</script>
+<script>
+	showHidePassword();
+</script>
 {% endblock %}
 
 {% block body %}
@@ -49,23 +49,7 @@
 						</li>
 						
 						<li class="nav-item disabled dropdown col-lg-2">
-							<a class="nav-link" href="#" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-cog"></i>Settings</a>
-							
-							<div class="dropdown-menu" aria-labelledby="submenu">
-							
-								<a class="dropdown-item" href="#"> User </a>
-								
-								<div class="dropdown-divider"></div>
-								
-								<a class="dropdown-item" href="#"> Income </a>
-								<a class="dropdown-item" href="#"> Expense </a>
-								
-								<div class="dropdown-divider"></div>
-								
-								<a class="dropdown-item" href="#"> Payment Methods </a>
-							
-							</div>
-							
+							<a class="nav-link" href="/settings/userSet"><i class="icon-cog"></i>Settings</a>
 						</li>
 						
 						<li class="nav-item col-lg-2">
@@ -80,24 +64,66 @@
 	</nav>
 
 	{{ include('selectPeriod.html') }}
-	
-	
-	<div class="bg-description">
-		<section class="container">
-			<div class="row justify-content-center">
-				
-				<nav>
-					
-				</nav>
-				
-				<form class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 px-4 pt-4 pb-4 my-4 bg-white formStart" method="post" action="/income/add" id="addItemForm">
-				
 
+	{{ include('/Settings/usernameSet.html') }}
+
+	{{ include('/Settings/emailSet.html') }}
+
+	{{ include('/Settings/passwordSet.html') }}
+	
+	
+	<section class="container mt-4">
+		<div class="row justify-content-center bg-light " >
+			
+
+			<form  style="text-align: left;" class="col-4">
+				<label for="nameInput" class="form-label ps-3">Name</label>
+
+				<div class="input-group-text ps-3 pt-0 mb-2">
+
+					<input class="form-control" type="text" name="name" value="{{ name }}" id="nameInput" disabled>
+
+					<button type="button" class="inputIcon" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#userSettings">
+						
+						<i class="icon-edit" id="toggler"></i>
 					
-				</form>
-			</div>
-		</section>
-	</div>
+					</button>
+				</div>
+
+				<label for="emailInput" class="form-label ps-3">Email</label>
+
+				<div class="input-group-text ps-3 pt-0 mb-2">
+					
+					<input class="form-control" type="email" name="email" value="{{ email }}" disabled>
+
+					<button type="button" class="inputIcon" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#emailSettings">
+						
+						<i class="icon-edit" id="toggler"></i>
+					
+					</button>
+				</div>
+
+				<label for="passwordInput" class="form-label ps-3">Password</label>
+				
+				<div class="input-group-text ps-3 pt-0">
+					
+					<input class="form-control" type="password" name="password" value="{{ password }}" disabled>
+
+					<button type="button" class="inputIcon" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#passwordSettings">
+						
+						<i class="icon-edit" id="toggler"></i>
+					
+					</button>
+				</div>
+			</form>
+
+			<nav>
+
+			</nav>
+
+		</div>
+	</section>
+
 
 		
 {% endblock %}

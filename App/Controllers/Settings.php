@@ -10,7 +10,10 @@ class Settings extends Authenticated
 {	
 	public function userSetAction()
 	{
-		View::renderTemplate('Settings/userSettings.html');
+		View::renderTemplate('Settings/userSettings.html',
+			['name' => $_SESSION['username'],
+			'email' => $_SESSION['email'],
+			'password' => $_SESSION['password']]);
 	}
 	
 	public function incomeSetAction()

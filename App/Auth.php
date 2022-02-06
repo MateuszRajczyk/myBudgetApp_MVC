@@ -13,6 +13,7 @@ class Auth
 		
 		$_SESSION['user_id'] = $user->id;
 		$_SESSION['username'] = $user->username;
+		$_SESSION['email'] = $user->email;
 		
 		if($rememberMe)
 		{

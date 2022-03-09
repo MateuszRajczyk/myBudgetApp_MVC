@@ -1,4 +1,4 @@
-<div class="modal hide fade in" tabindex="-1" role="dialog" id="emailSettings">
+<div class="modal hide fade in" tabindex="-1" role="dialog" id="emailSettings" data-bs-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,7 +7,7 @@
                 <button type="button" class="close closeButton" data-bs-dismiss="modal">x</button>
             </div>
             
-            <form class="mx-4" style="text-align: left;" method="post" action="/balance/select-period">
+            <form class="mx-4 modalEditOptionEmail" id="emailSetForm" style="text-align: left;" method="post" action="/settings/editUserProfile">
                 <div class="modal-body">
                     <h5>Enter a new email and confirm password</h5>
                     
@@ -19,26 +19,38 @@
                             <input class="form-control" type="email" name="email" value="{{ email }}" id="emailInput">
         
                         </div>
+
+                        <div class="text-danger text-start ps-3 errorEmail">
+
+
+    
+                        </div>
                         
                         <label for="passwordInput" class="form-label ps-3">Password</label>
 
                         <div class="input-group-text ps-3 pt-0">
 
-                            <input class="form-control passwordShowHide" type="password" name="password" value="" placeholder="confirm password">
-                            
-                            <button type="button" class="showHide inputIcon" style="font-size: 22px;">
+                            <input class="form-control passwordShowHide2" type="password" name="password" value="" placeholder="confirm password" required>
+                            <input class="form-control passwordShowHide" type="password" name="password2" id="password2" value="{{ password }}" hidden disabled>
+                            <button type="button" class="showHide2 inputIcon" style="font-size: 22px;">
                     
-                                <i class="icon-eye-1" id="toggler"></i>
+                                <i class="icon-eye-1" id="toggler2"></i>
                             
                             </button>
+                        </div>
+
+                        <div class="text-danger text-start ps-3 errorPassword">
+
+
+    
                         </div>
                     </div>
                 </div>
                 
                 <div class="modal-footer mt-2 mb-2">
-                    <button class="btn footerButtons" type="submit">Save</button>
+                    <button class="btn footerButtons passwordValid" type="submit">Save</button>
                     
-                    <button type="button" class="btn footerButtons" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="emailSet" class="btn footerButtons" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </form>
         </div>

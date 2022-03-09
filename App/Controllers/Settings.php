@@ -5,6 +5,7 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Auth;
 use \App\Flash;
+use \App\Models\User;
 
 class Settings extends Authenticated
 {	
@@ -29,6 +30,34 @@ class Settings extends Authenticated
 	public function paymentSetAction()
 	{
 		View::renderTemplate('Settings/paymentMethodsSettings.html');
+	}
+
+	public function editUserProfileAction()
+	{
+		$userAuth = User::authenticate($_SESSION['email'], $_POST['password']);
+
+		$user = new User($_POST);
+		
+		if($userAuth && $user->editUserDetails())
+		{
+			if(isset($user->username)){
+				Flash::addMessage('Username was successfuly updated');
+			}else if(isset($user->email)){
+				Flash::addMessage('Email was successfuly updated');
+			}else if(isset($user->new_password)){
+				Flash::addMessage('Password was successfuly updated');
+			}
+			
+
+			View::renderTemplate('Settings/userSettings.html',
+			['name' => $_SESSION['username'],
+			'email' => $_SESSION['email'],
+			'password' => $_SESSION['password']]);
+		}
+		else
+		{
+			$this->redirect('/settings/userSet');
+		}
 	}
 
 }

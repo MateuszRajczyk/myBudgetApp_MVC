@@ -21,8 +21,10 @@ class searchFinance extends \Core\Model
 		$this->startDate = Date::getStartCurrentDate();
 		$this->endDate = Date::getEndCurrentDate();
 		
-		$this->getIncomesInPeriod();
-		$this->getExpensesInPeriod();
+		$this->getAllIncomes();
+		$this->getAllExpenses();
+		$this->getCategoryIncomes();
+		$this->getCategoryExpenses();
 		$this->sumIncomes();
 		$this->sumExpenses();
 		$this->balanceFinance();
@@ -33,8 +35,10 @@ class searchFinance extends \Core\Model
 		$this->startDate = Date::getStartLastMonthDate();
 		$this->endDate = Date::getEndLastMonthDate();
 		
-		$this->getIncomesInPeriod();
-		$this->getExpensesInPeriod();
+		$this->getAllIncomes();
+		$this->getAllExpenses();
+		$this->getCategoryIncomes();
+		$this->getCategoryExpenses();
 		$this->sumIncomes();
 		$this->sumExpenses();
 		$this->balanceFinance();
@@ -45,8 +49,10 @@ class searchFinance extends \Core\Model
 		$this->startDate = Date::getStartCurrentYearDate();
 		$this->endDate = Date::getEndCurrentYearDate();
 		
-		$this->getIncomesInPeriod();
-		$this->getExpensesInPeriod();
+		$this->getAllIncomes();
+		$this->getAllExpenses();
+		$this->getCategoryIncomes();
+		$this->getCategoryExpenses();
 		$this->sumIncomes();
 		$this->sumExpenses();
 		$this->balanceFinance();
@@ -57,14 +63,16 @@ class searchFinance extends \Core\Model
 		$this->startDate = $this->date1;
 		$this->endDate = $this->date2;
 		
-		$this->getIncomesInPeriod();
-		$this->getExpensesInPeriod();
+		$this->getAllIncomes();
+		$this->getAllExpenses();
+		$this->getCategoryIncomes();
+		$this->getCategoryExpenses();
 		$this->sumIncomes();
 		$this->sumExpenses();
 		$this->balanceFinance();
 	}
 	
-	public function getIncomesInPeriod()
+	public function getAllIncomes()
 	{
 		$sql = "SELECT incomes.amount, incomes.incomeCategoryAssignedToUserId, incomes_category_assigned_to_users.name, incomes.incomeComment, incomes.dateOfIncome 
 				FROM incomes, incomes_category_assigned_to_users 
@@ -88,39 +96,34 @@ class searchFinance extends \Core\Model
 		$this->allIncomes = $stmt->fetchAll();
 		
 	}
-	
-	protected function sumIncomes()
+
+	public function getCategoryIncomes()
 	{
-		$this->countIncomes = 0;
+		$sql = "SELECT SUM(incomes.amount) AS catIncomeAmount, incomes.incomeCategoryAssignedToUserId, incomes_category_assigned_to_users.name 
+				FROM incomes, incomes_category_assigned_to_users 
+				WHERE incomes.userId=:userId 
+				AND incomes.userId = incomes_category_assigned_to_users.userId 
+				AND incomes.incomeCategoryAssignedToUserId = incomes_category_assigned_to_users.id 
+				AND incomes.dateOfIncome >=:date1 
+				AND incomes.dateOfIncome <=:date2 
+				GROUP BY incomes.incomeCategoryAssignedToUserId
+				ORDER BY incomes.incomeCategoryAssignedToUserId ASC";
+				
+		$db = static::getDB();
 		
-		foreach($this->allIncomes as $income)
-		{
-			$this->countIncomes += $income['amount'];
-		}
+		$stmt = $db->prepare($sql);
 		
-		return $this->countIncomes;
+		$stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+		$stmt->bindValue(':date1', $this->startDate, PDO::PARAM_STR);
+		$stmt->bindValue(':date2', $this->endDate, PDO::PARAM_STR);
+		
+		$stmt->execute();
+		
+		$this->categoryIncomes = $stmt->fetchAll();
+		
 	}
 	
-	protected function sumExpenses()
-	{
-		$this->countExpenses = 0;
-		
-		foreach($this->allExpenses as $expense)
-		{
-			$this->countExpenses += $expense['amount'];
-		}
-		
-		return $this->countExpenses;
-	}
-	
-	protected function balanceFinance()
-	{
-		$this->balance = $this->sumIncomes() - $this->sumExpenses();
-		
-		return $this->balance;
-	}
-	
-	public function getExpensesInPeriod()
+	public function getAllExpenses()
 	{
 		$sql = "SELECT expenses.amount, expenses.expenseCategoryAssignedToUserId, expenses_category_assigned_to_users.name, expenses.expenseComment, expenses.dateOfExpense 
 				FROM expenses, expenses_category_assigned_to_users 
@@ -143,6 +146,64 @@ class searchFinance extends \Core\Model
 		
 		$this->allExpenses = $stmt->fetchAll();
 	}
+
+	public function getCategoryExpenses()
+	{
+		$sql = "SELECT SUM(expenses.amount) AS catExpenseAmount, expenses.expenseCategoryAssignedToUserId, expenses_category_assigned_to_users.name
+				FROM expenses, expenses_category_assigned_to_users 
+				WHERE expenses.userId=:userId 
+				AND expenses.userId = expenses_category_assigned_to_users.userId 
+				AND expenses.expenseCategoryAssignedToUserId = expenses_category_assigned_to_users.id 
+				AND expenses.dateOfExpense >=:date1 
+				AND expenses.dateOfExpense <=:date2 
+				GROUP BY expenses.expenseCategoryAssignedToUserId
+				ORDER BY expenses.expenseCategoryAssignedToUserId ASC";
+				
+		$db = static::getDB();
+		
+		$stmt = $db->prepare($sql);
+		
+		$stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+		$stmt->bindValue(':date1', $this->startDate, PDO::PARAM_STR);
+		$stmt->bindValue(':date2', $this->endDate, PDO::PARAM_STR);
+		
+		$stmt->execute();
+		
+		$this->categoryExpenses = $stmt->fetchAll();
+	}
+
+	protected function sumIncomes()
+	{
+		$this->countIncomes = 0;
+		
+		foreach($this->categoryIncomes as $income)
+		{
+			$this->countIncomes += $income['catIncomeAmount'];
+		}
+		
+		return $this->countIncomes;
+	}
+	
+	protected function sumExpenses()
+	{
+		$this->countExpenses = 0;
+		
+		foreach($this->categoryExpenses as $expense)
+		{
+			$this->countExpenses += $expense['catExpenseAmount'];
+		}
+		
+		return $this->countExpenses;
+	}
+	
+	protected function balanceFinance()
+	{
+		$this->balance = $this->sumIncomes() - $this->sumExpenses();
+		
+		return $this->balance;
+	}
+	
+
 	
 	
 	

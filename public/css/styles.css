@@ -485,3 +485,24 @@ div.errorValidation > div
 {
 	font-size: 12px;
 }
+
+button:focus
+{
+	box-shadow: none !important;
+}
+
+.icon-down-open
+{
+	float: right;
+}
+
+.userSetBtn
+{
+	background-color: #02ad5d;
+}
+
+.userSetBtn:hover
+{
+	opacity: 0.9;
+}
+

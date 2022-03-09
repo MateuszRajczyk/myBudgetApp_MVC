@@ -5,7 +5,30 @@
 {% block footer %}
 	
 <script>
-	showHidePassword();
+	validatePasswordSettings();
+	//validateNewPasswordEdit();
+
+	showHidePassword('#toggler1', '.passwordShowHide1', '.showHide1');
+	showHidePassword('#toggler2', '.passwordShowHide2', '.showHide2');
+	showHidePassword('#toggler3', '.passwordShowHide3', '.showHide3');
+	showHidePassword('#toggler4', '.passwordShowHide4', '.showHide4');
+
+
+	$('#userSet').on('click', function()
+	{
+		$('#userSetForm').trigger('reset');
+	});
+
+	$('#emailSet').on('click', function()
+	{
+		$('#emailSetForm').trigger('reset');
+	});
+
+	$('#passwordSet').on('click', function()
+	{
+		$('#passwordSetForm').trigger('reset');
+	});
+
 </script>
 {% endblock %}
 
@@ -70,56 +93,56 @@
 	{{ include('/Settings/emailSet.html') }}
 
 	{{ include('/Settings/passwordSet.html') }}
-	
-	
-	<section class="container mt-4">
+
+	<section class="container mt-4 col-6">
 		<div class="row justify-content-center bg-light " >
 			
+			<button class="btn fw-bold p-1 userSetBtn" data-bs-toggle="collapse" data-bs-target="#userCollapse">User Settings<i class="icon-down-open"></i></button>
+			
+			<div class="collapse" id="userCollapse">
+				<div class="row justify-content-left">
+					<form class="mt-2 text-start">
+						<label for="nameInput" class="form-label ps-3 fw-bold">Name</label>
 
-			<form  style="text-align: left;" class="col-4">
-				<label for="nameInput" class="form-label ps-3">Name</label>
+						<div class="input-group-text ps-3 pt-0 mb-2">
 
-				<div class="input-group-text ps-3 pt-0 mb-2">
+							<input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="{{ name }}" id="nameInput" disabled>
 
-					<input class="form-control" type="text" name="name" value="{{ name }}" id="nameInput" disabled>
+							<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#userSettings">
+								
+								<i class="icon-edit" id="toggler"></i>
+							
+							</button>
+						</div>
 
-					<button type="button" class="inputIcon" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#userSettings">
+						<label for="emailInput" class="form-label ps-3 fw-bold">Email</label>
+
+						<div class="input-group-text ps-3 pt-0 mb-2">
+							
+							<input class="form-control shadow-none border-secondary border-1" type="email" name="email" value="{{ email }}" disabled>
+
+							<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#emailSettings">
+								
+								<i class="icon-edit" id="toggler"></i>
+							
+							</button>
+						</div>
+
+						<label for="passwordInput" class="form-label ps-3 fw-bold">Password</label>
 						
-						<i class="icon-edit" id="toggler"></i>
-					
-					</button>
+						<div class="input-group-text ps-3 pt-0">
+							
+							<input class="form-control shadow-none border-secondary border-1" type="password" name="password" value="{{ password }}" disabled>
+
+							<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#passwordSettings">
+								
+								<i class="icon-edit" id="toggler"></i>
+							
+							</button>
+						</div>
+					</form>
 				</div>
-
-				<label for="emailInput" class="form-label ps-3">Email</label>
-
-				<div class="input-group-text ps-3 pt-0 mb-2">
-					
-					<input class="form-control" type="email" name="email" value="{{ email }}" disabled>
-
-					<button type="button" class="inputIcon" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#emailSettings">
-						
-						<i class="icon-edit" id="toggler"></i>
-					
-					</button>
-				</div>
-
-				<label for="passwordInput" class="form-label ps-3">Password</label>
-				
-				<div class="input-group-text ps-3 pt-0">
-					
-					<input class="form-control" type="password" name="password" value="{{ password }}" disabled>
-
-					<button type="button" class="inputIcon" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#passwordSettings">
-						
-						<i class="icon-edit" id="toggler"></i>
-					
-					</button>
-				</div>
-			</form>
-
-			<nav>
-
-			</nav>
+			</div>
 
 		</div>
 	</section>

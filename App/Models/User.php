@@ -78,6 +78,7 @@ class User extends \Core\Model
      */
     public function validate()
     {
+
         // Name
         if ($this->userName == '') {
             $this->errors['ErrName1'] = 'Name is required';
@@ -375,6 +376,38 @@ class User extends \Core\Model
 		
 		$stmt->bindValue(':username', $this->userName, PDO::PARAM_STR);
 		
+		return $stmt->execute();
+	}
+
+	public function editUserDetails()
+	{
+		$sql = "UPDATE users SET username=:name, email=:email, password=:password WHERE id=:userId";
+
+		$db = static::getDB();
+
+		$stmt = $db->prepare($sql);
+
+		if(isset($this->username)){
+			$stmt->bindValue(':name', $this->username, PDO::PARAM_STR);
+			$stmt->bindValue(':email', $_SESSION['email'], PDO::PARAM_STR);
+			$stmt->bindValue(':password',password_hash(($_SESSION['password']), PASSWORD_DEFAULT), PDO::PARAM_STR);
+			$_SESSION['username'] = $this->username;
+		}else if(isset($this->email)){
+			$stmt->bindValue(':name', $_SESSION['username'], PDO::PARAM_STR);
+			$stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
+			$stmt->bindValue(':password',password_hash(($_SESSION['password']), PASSWORD_DEFAULT), PDO::PARAM_STR);
+			$_SESSION['email'] = $this->email;
+		}else if(isset($this->new_password)){
+			$new_password_hash = password_hash(($this->new_password), PASSWORD_DEFAULT);
+
+			$stmt->bindValue(':name', $_SESSION['username'], PDO::PARAM_STR);
+			$stmt->bindValue(':email',$_SESSION['email'], PDO::PARAM_STR);
+			$stmt->bindValue(':password',$new_password_hash, PDO::PARAM_STR);
+			$_SESSION['password'] = $this->new_password;
+		}
+
+		$stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+
 		return $stmt->execute();
 	}
 	

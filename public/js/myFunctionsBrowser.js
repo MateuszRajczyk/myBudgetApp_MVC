@@ -193,23 +193,163 @@ function newValidMethods()
 		'Password needs letters and numbers'
 	);
 }
-function showHidePassword()
+
+function showHidePassword(toggler, passwordShowHide, showHide)
 {
-    $(".showHide").on('click',function() {
+    $(showHide).on('click',function() {
         
-        var $password = $(".passwordShowHide");
+        var $password = $(passwordShowHide);
         
         if ($password.attr('type') === 'password') {
             
             $password.attr('type', 'text');
-            $("#toggler").removeClass("icon-eye-1");
-            $("#toggler").addClass("icon-eye-off-1");
+            $(toggler).removeClass("icon-eye-1");
+            $(toggler).addClass("icon-eye-off-1");
             
         } else {
             
             $password.attr('type', 'password');
-            $("#toggler").removeClass("icon-eye-off-1");
-            $("#toggler").addClass("icon-eye-1");
+            $(toggler).removeClass("icon-eye-off-1");
+            $(toggler).addClass("icon-eye-1");
         }
     });
 }
+
+function validateUsernameSettings()
+{
+	$('.modalEditOptionName').validate({
+		errorElement: 'div',
+		rules: {
+			password: {
+				required: true,
+				equalTo: "#password2"
+			},
+			username: {
+				required: true,
+				minlength: 3,
+				maxlength: 20,
+				nameValidation: true
+			}
+		},
+		messages: {
+			password: {
+				required: 'Password is required',
+				equalTo: 'Incorrect password'
+			},
+			username: {
+				required: 'Name is required',
+				minlength: 'Name needs to be between 3 to 20 characters',
+				maxlength: 'Name needs to be between 3 to 20 characters'
+			}
+		},
+		errorPlacement: function(error, element){
+			
+			if(element.attr('name') == 'password') {
+				error.appendTo('.errorPassword')
+			}
+			if(element.attr('name') == 'username') {
+				error.appendTo('.errorUsername')
+			}
+			
+		}
+	});
+}
+
+function validateEmailSettings()
+{
+	$('.modalEditOptionEmail').validate({
+		errorElement: 'div',
+		rules: {
+			password: {
+				required: true,
+				equalTo: "#password2"
+			},
+			email: {
+				required: true,
+				email: true,
+				remote: '/account/validate-email'
+			}
+		},
+		messages: {
+			password: {
+				required: 'Password is required',
+				equalTo: 'Incorrect password'
+			},
+			email: {
+				required: 'Email is required',
+				email: 'Please enter a correct email adress',
+				remote: 'Email already exists with this account'
+			}
+		},
+		errorPlacement: function(error, element){
+			
+			if(element.attr('name') == 'password') {
+				error.appendTo('.errorPassword')
+			}
+			if(element.attr('name') == 'email') {
+				error.appendTo('.errorEmail')
+			}
+			
+		}
+	});
+}
+function validateNewPasswordSettings()
+{
+	$('.modalEditOptionPassword').validate({
+		errorElement: 'div',
+		rules: {
+			password: {
+				required: true,
+				equalTo: "#password2"
+			},
+			new_password: {
+				required: true,
+				minlength: 6,
+				passwordValidation: true
+			}
+		},
+		messages: {
+			password: {
+				required: 'Password is required',
+				equalTo: 'Incorrect password'
+			},
+			new_password: {
+				required: 'Password is required',
+				minlength: 'Please enter at least 6 characters for the password',
+			}
+		},
+		errorPlacement: function(error, element){
+			
+			if(element.attr('name') == 'password') {
+				error.appendTo('.errorPassword')
+			}
+			if(element.attr('name') == 'new_password') {
+				error.appendTo('.errorNewPassword')
+			}
+			
+		}
+	});
+}
+
+function validatePasswordSettings()
+{
+	newValidMethods();
+
+	$(document).ready(function() {
+		$('.userSet').click(function(){
+			$('.errorPassword').empty();
+			$('.errorNewPassword').empty();
+
+			$('.passwordValid').click(function(){
+				
+				validateUsernameSettings();
+
+				validateEmailSettings();
+
+				validateNewPasswordSettings();
+			});
+		});
+	});
+}
+
+

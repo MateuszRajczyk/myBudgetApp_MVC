@@ -5,8 +5,29 @@
 {% block footer %}
 	
 	<script>
-	
+		expandTableRows();
+
+		var nameCatIncome = [];
+		var amountCatIncome = [];
+
+		var nameCatExpense = [];
+		var amountCatExpense = [];
+
+		'{% for catIncome in financeData.categoryIncomes %}'
+			nameCatIncome.push('{{ catIncome["name"] }}');
+			amountCatIncome.push('{{ catIncome["catIncomeAmount"] }}');
+		'{% endfor %}'
+
+		'{% for catExpense in financeData.categoryExpenses %}'
+			nameCatExpense.push('{{ catExpense["name"] }}');
+			amountCatExpense.push('{{ catExpense["catExpenseAmount"] }}');
+		'{% endfor %}'
+
+		showChart(nameCatIncome, amountCatIncome, nameCatExpense, amountCatExpense);
+
 	</script>
+
+	
 {% endblock %}
 
 {% block body %}
@@ -98,48 +119,50 @@
 
 	<div class="container-fluid container-lg">
 		<div class="row justify-content-center mt-3">
-			<div class="table-responsive col-6"> 
+			<div class="table-responsive col-10"> 
 				<table class="table table-bordered mb-0 caption-top table-sm">
 				
 						<thead>
 							{% if financeData.categoryIncomes is not empty %}
 								<tr>
 									<th>Category</th>
-									<th colspan="3">Amount</th>
+									<th >Amount</th>
+									<th></th>
 								</tr>
 							{% endif %}
 						</thead>
 
 						<tbody>
 							{% for catIncome in financeData.categoryIncomes %}
-								<tr>
-									<td>{{ catIncome['name'] }}</td>
-									<td colspan="2">{{ catIncome['catIncomeAmount'] }}
-										<button class="btn dropdown-toggle p-0 m-0 px-1" style="float: right; font-size: 15px;" type="button" data-bs-toggle="collapse" data-bs-target="#{{ catIncome['name'] }}" aria-expanded="false" aria-controls="collapseExample"></button>
-									</td>	
+								<tr class="header">
+									<td class="category incomeCat">{{ catIncome['name'] }}</td>
+									<td class="amount">{{ catIncome['catIncomeAmount'] }}</td>	
+									<td class="btnC">
+										<button class="btn p-0 m-0 px-1" style="float: right; font-size: 15px;" type="button" ><i class="icon-down-open"></i></button>
+									</td>
 
 								</tr>
 								
 								{% for Income in financeData.allIncomes %}
 								
 									{% if Income['name'] == catIncome['name'] %}
-										<tr class="collapse" id="{{ catIncome['name'] }}">
+										<tr class="qq">
 
 											<td>{{ Income['amount'] }}</td>
 
 											<td>{{ Income['dateOfIncome'] }}</td>
 
 											{% if Income['incomeComment'] is not empty %}
-												<td colspan="2">{{ Income['incomeComment'] }}</td>
+												<td >{{ Income['incomeComment'] }}</td>
 											{% else %}
-												<td colspan="2">-</td>
+												<td >-</td>
 											{% endif %}
 										</tr>
 									{% endif %}
 								{% endfor %}
 							{% endfor %}
 							
-							<caption style="border-style: none;">Incomes</caption>
+							<caption style="border-style: none;" class="p-1">Incomes</caption>
 
 							<tr class="summary table-dark">
 								<td class="total">TOTAL</td>
@@ -147,58 +170,59 @@
 							</tr>
 						</tbody>
 				</table>
-			</div>
 
-			<div class="table-responsive col-6"> 
-				<table class="table table-bordered mb-0 caption-top table-sm" >
-
-
+				<table class="table table-bordered mb-0 caption-top table-sm mt-5">
+				
 					<thead>
-						{% if financeData.allExpenses is not empty %}
+						{% if financeData.categoryExpenses is not empty %}
 							<tr>
 								<th>Category</th>
-								<th>Amount</th>
+								<th >Amount</th>
+								<th></th>
 							</tr>
 						{% endif %}
 					</thead>
-					
+
 					<tbody>
-						{% for catExpense in financeData.categoryExpense %}
-						<tr>
-							<td>{{ catExpense['name'] }}</td>
-							<td>{{ catExpense['catExpenseAmount'] }}</td>
-							<td>
-								<button class="btn dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target=""></button>
-							</td>		
-						</tr>
-						
-						{% for Expense in financeData.allExpenses %}
-							{% if Expense['name'] == catExpense['name'] %}
-								<tr>
-									<td>{{ Expense['amount'] }}</td>
+						{% for catExpense in financeData.categoryExpenses %}
+							<tr class="header">
+								<td class="category">{{ catExpense['name'] }}</td>
+								<td class="amount">{{ catExpense['catExpenseAmount'] }}</td>	
+								<td class="btnC">
+									<button class="btn p-0 m-0 px-1" style="float: right; font-size: 15px;" type="button" ><i class="icon-down-open"></i></button>
+								</td>
 
-									<td>{{ Expense['dateOfExpense'] }}</td>
+							</tr>
+							
+							{% for Expense in financeData.allExpenses %}
+							
+								{% if Expense['name'] == catExpense['name'] %}
+									<tr class="qq">
 
-									{% if Expense['expenseComment'] is not empty %}
-										<td>{{ Expense['expenseComment'] }}</td>
-									{% else %}
-										<td>-</td>
-									{% endif %}
-								</tr>
-							{% endif %}
+										<td>{{ Expense['amount'] }}</td>
+
+										<td>{{ Expense['dateOfExpense'] }}</td>
+
+										{% if Expense['expenseComment'] is not empty %}
+											<td >{{ Expense['expenseComment'] }}</td>
+										{% else %}
+											<td >-</td>
+										{% endif %}
+									</tr>
+								{% endif %}
+							{% endfor %}
 						{% endfor %}
-					{% endfor %}
 						
-						<caption style="border-style: none;">Expense</caption>
-						
+						<caption style="border-style: none;" class="p-1">Expenses</caption>
+
 						<tr class="summary table-dark">
 							<td class="total">TOTAL</td>
-							<td class="sum" colspan="3">{{ financeData.countExpenses}} PLN</td>
+							<td class="sum" colspan="3">{{ financeData.countExpenses }} PLN</td>
 						</tr>
-						
 					</tbody>
-				</table>
+			</table>
 			</div>
+
 		</div>
 
 
@@ -216,7 +240,18 @@
 				{% else %}
 					<div class='p-3' style='color:#4f4646; font-weight: 700; font-size: 18px;'>No losses and no savings!</div>
 				{% endif %}
-		
 	</div>
+
+	<div class="row justify-content-center col-12 mt-5">
+		{% if financeData.categoryIncomes is not empty %}
+			<div class="col-3"><canvas id="chart1" width="400" height="400"></canvas></div>
+		{% endif %}
+
+
+		{% if financeData.categoryExpenses is not empty %}
+			<div class="col-3"><canvas id="chart2" width="400" height="400"></canvas></div>
+		{% endif %}
+	</div>
+
 	
 {% endblock %}

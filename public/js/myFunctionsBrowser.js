@@ -331,7 +331,7 @@ function validateNewPasswordSettings()
 	});
 }
 
-function validatePasswordSettings()
+function validateUserSettings()
 {
 	newValidMethods();
 
@@ -352,4 +352,112 @@ function validatePasswordSettings()
 	});
 }
 
+function expandTableRows()
+{
+	$(document).ready(function() {
+		$('tr.qq').css('display', 'none');
+
+		$('tr.header').click(function(){
+			$(this).nextUntil('tr.header').css('display', function(i,v) {
+				
+				if(this.style.display == 'table-row')
+				{	
+					return 'none';
+				}else{
+					return 'table-row';
+				}
+
+			});
+		});
+	});
+}
+
+function showChart(nameIncome, amountIncome, nameExpense, amountExpense)
+{
+	const char1 = $('#chart1');
+	const myChart1 = new Chart(char1, {
+		type: 'pie',
+		data: {
+			labels: nameIncome,
+			datasets: [{
+				label: '# of Votes',
+				data: amountIncome,
+				backgroundColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)'
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)'
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+			plugins: {
+				title: {
+					display: true,
+					text: 'Incomes',
+					font: {
+						size: 18,
+						style: 'italic',
+						weight: 'normal'
+
+					}
+				}
+			}
+		}
+	});
+
+	const char2 = $('#chart2');
+	const myChart2 = new Chart(char2, {
+		type: 'pie',
+		data: {
+			labels: nameExpense,
+			datasets: [{
+				label: '# of Votes',
+				data: amountExpense,
+				backgroundColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)'
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)'
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+			plugins: {
+				title: {
+					display: true,
+					text: 'Expenses',
+					font: {
+						size: 18,
+						style: 'italic',
+						weight: 'normal'
+
+					}
+				}
+			}
+		}
+	});
+}
 

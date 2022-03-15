@@ -5,6 +5,7 @@
 {% block footer %}
 	
 <script>
+	showCategories();
 	validateUserSettings();
 
 	showHidePassword('#toggler1', '.passwordShowHide1', '.showHide1');
@@ -28,6 +29,7 @@
 		$('#passwordSetForm').trigger('reset');
 	});
 
+	
 </script>
 {% endblock %}
 
@@ -87,11 +89,13 @@
 
 	{{ include('selectPeriod.html') }}
 
-	{{ include('/Settings/usernameSet.html') }}
+	{{ include('/Settings/userSet/usernameSet.html') }}
 
-	{{ include('/Settings/emailSet.html') }}
+	{{ include('/Settings/userSet/emailSet.html') }}
 
-	{{ include('/Settings/passwordSet.html') }}
+	{{ include('/Settings/userSet/passwordSet.html') }}
+
+	{{ include('/Settings/incomeSet/editCategory.html') }}
 
 	<section class="container mt-4 col-6">
 		<div class="row justify-content-center bg-light " >
@@ -139,6 +143,51 @@
 							
 							</button>
 						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row justify-content-center bg-light mt-2" >
+			
+			<button class="btn fw-bold p-1 userSetBtn" data-bs-toggle="collapse" data-bs-target="#incomeCollapse">Income Settings<i class="icon-down-open"></i></button>
+			
+			<div class="collapse" id="incomeCollapse">
+				<div class="row justify-content-left">
+					<form class="mt-2 text-start" id="incomeCategory">
+						<label for="incomeCollapse" class="form-label ps-3 fw-bold">Income Categories</label>
+
+					</form>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row justify-content-center bg-light mt-2" >
+			
+			<button class="btn fw-bold p-1 userSetBtn" data-bs-toggle="collapse" data-bs-target="#expenseCollapse">Expense Settings<i class="icon-down-open"></i></button>
+			
+			<div class="collapse" id="expenseCollapse">
+				<div class="row justify-content-left">
+					<form class="mt-2 text-start" id="expenseCategory">
+						<label for="expenseCollapse" class="form-label ps-3 fw-bold">Expense Categories</label>
+
+					</form>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row justify-content-center bg-light mt-2" >
+			
+			<button class="btn fw-bold p-1 userSetBtn" data-bs-toggle="collapse" data-bs-target="#paymentCollapse">Payment Methods Settings<i class="icon-down-open"></i></button>
+			
+			<div class="collapse" id="paymentCollapse">
+				<div class="row justify-content-left">
+					<form class="mt-2 text-start" id="paymentCategory">
+						<label for="paymentCategory" class="form-label ps-3 fw-bold">Payment Methods Categories</label>
+
 					</form>
 				</div>
 			</div>

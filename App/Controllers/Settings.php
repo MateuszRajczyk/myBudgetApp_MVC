@@ -6,6 +6,7 @@ use \Core\View;
 use \App\Auth;
 use \App\Flash;
 use \App\Models\User;
+use \App\Models\SettingsInfo;
 
 class Settings extends Authenticated
 {	
@@ -19,17 +20,36 @@ class Settings extends Authenticated
 	
 	public function incomeSetAction()
 	{
-		View::renderTemplate('Settings/incomeSettings.html');
+		$settingsInfo = new SettingsInfo();
+
+		$getCategoryIncomes = $settingsInfo->getIncomeCategoriesInfo();
+
+		header('Content-Type: application/json');
+
+		echo json_encode($getCategoryIncomes);
+
 	}
 	
 	public function expenseSetAction()
 	{
-		View::renderTemplate('Settings/expenseSettings.html');
+		$settingsInfo = new SettingsInfo();
+
+		$getCategoryExpenses = $settingsInfo->getExpenseCategoriesInfo();
+
+		header('Content-Type: application/json');
+
+		echo json_encode($getCategoryExpenses);
 	}
 	
 	public function paymentSetAction()
 	{
-		View::renderTemplate('Settings/paymentMethodsSettings.html');
+		$settingsInfo = new SettingsInfo();
+
+		$getCategoryPayment = $settingsInfo->getPaymentMethodsCategoriesInfo();
+
+		header('Content-Type: application/json');
+
+		echo json_encode($getCategoryPayment);
 	}
 
 	public function editUserProfileAction()

@@ -16,4 +16,13 @@ class Account extends \Core\Controller
 		echo json_encode($isEmailValid);
 	}
 
+	public function validatePasswordAction()
+	{
+		$isPasswordTaken = !User::emailExists($_GET['email']);
+		
+		header('Content-Type: application/json');
+		
+		echo json_encode($isEmailValid);
+	}
+
 }

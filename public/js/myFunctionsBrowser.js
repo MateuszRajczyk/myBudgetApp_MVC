@@ -192,6 +192,7 @@ function newValidMethods()
         },
 		'Password needs letters and numbers'
 	);
+
 }
 
 function showHidePassword(toggler, passwordShowHide, showHide)
@@ -315,7 +316,7 @@ function validateNewPasswordSettings()
 			},
 			new_password: {
 				required: 'Password is required',
-				minlength: 'Please enter at least 6 characters for the password',
+				minlength: 'Please enter at least 6 characters for the password'
 			}
 		},
 		errorPlacement: function(error, element){
@@ -374,6 +375,20 @@ function expandTableRows()
 
 function showChart(nameIncome, amountIncome, nameExpense, amountExpense)
 {
+	var colors = [];
+
+	var dynamicColors = function() {
+		var op = (Math.random() * (1-0.5)+0.5);
+
+		return "rgba(" + 50 + "," + 57 + "," + 191 + "," + op + ")";
+	};
+
+	for(var i = 0; i <= nameExpense.length; i++)
+	{
+		colors.push(dynamicColors());
+		
+	}
+
 	const char1 = $('#chart1');
 	const myChart1 = new Chart(char1, {
 		type: 'pie',
@@ -382,21 +397,9 @@ function showChart(nameIncome, amountIncome, nameExpense, amountExpense)
 			datasets: [{
 				label: '# of Votes',
 				data: amountIncome,
-				backgroundColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)'
-				],
+				backgroundColor: colors,
 				borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)'
+					'rgb(13, 0, 99)'
 				],
 				borderWidth: 1
 			}]
@@ -425,21 +428,9 @@ function showChart(nameIncome, amountIncome, nameExpense, amountExpense)
 			datasets: [{
 				label: '# of Votes',
 				data: amountExpense,
-				backgroundColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)'
-				],
+				backgroundColor: colors,
 				borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)'
+					'rgb(13, 0, 99)'
 				],
 				borderWidth: 1
 			}]
@@ -456,6 +447,75 @@ function showChart(nameIncome, amountIncome, nameExpense, amountExpense)
 
 					}
 				}
+			}
+		}
+	});
+}
+
+function showCategories()
+{
+	// get incomes categories from database
+	$.ajax({
+		url: '/settings/incomeSet',
+		dataType: 'json',
+		success: function(res){
+			for(var i = 0; i<res.length; i++){
+				$('#incomeCategory').append(`
+				<div class="input-group-text ps-3 pt-0 mb-2">
+				
+				<input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="`+ res[i].name + `" id="nameInput" disabled>
+	
+				<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#incomeSettings">
+					
+					<i class="icon-edit" id="toggler"></i>
+				
+				</button>
+				</div>`
+				);
+			}
+		}
+	});
+
+	// get expenses categories from database
+	$.ajax({
+		url: '/settings/expenseSet',
+		dataType: 'json',
+		success: function(res){
+			for(var i = 0; i<res.length; i++){
+				$('#expenseCategory').append(`
+				<div class="input-group-text ps-3 pt-0 mb-2">
+				
+				<input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="`+ res[i].name + `" id="nameInput" disabled>
+	
+				<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#expenseSettings">
+					
+					<i class="icon-edit" id="toggler"></i>
+				
+				</button>
+				</div>`
+				);
+			}
+		}
+	});
+
+	// get payment methods categories from database
+	$.ajax({
+		url: '/settings/paymentSet',
+		dataType: 'json',
+		success: function(res){
+			for(var i = 0; i<res.length; i++){
+				$('#paymentCategory').append(`
+				<div class="input-group-text ps-3 pt-0 mb-2">
+				
+				<input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="`+ res[i].name + `" id="nameInput" disabled>
+	
+				<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#paymentSettings">
+					
+					<i class="icon-edit" id="toggler"></i>
+				
+				</button>
+				</div>`
+				);
 			}
 		}
 	});

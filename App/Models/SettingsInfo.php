@@ -78,4 +78,19 @@ class SettingsInfo extends \Core\Model
 
         return $stmt->fetchAll();
     }
+
+    public function editIncomeCategory()
+    {
+        $sql = "UPDATE incomes_category_assigned_to_users SET name=:newName WHERE userId=:userId AND name=:oldName";
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':newName', $this->newCategoryName, PDO::PARAM_STR);
+        $stmt->bindValue(':oldName', $this->oldCategoryName, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
 }

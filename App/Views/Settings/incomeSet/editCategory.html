@@ -7,7 +7,7 @@
                 <button type="button" class="close closeButton" data-bs-dismiss="modal">x</button>
             </div>
             
-            <form class="mx-4 modalEditOptionIncomeCategory" id="incomeSetForm"  style="text-align: left;" method="post" action="/settings/editIncome">
+            <form class="mx-4 modalEditOptionIncomeCategory" id="incomeSetForm"  style="text-align: left;">
                 <div class="modal-body">
                     <h5>Please enter new name for the selected category.</h5>
                     
@@ -16,7 +16,8 @@
 
                         <div class="input-group-text ps-3 pt-0 mb-2">
 
-                            <input class="form-control" type="text" name="incomeName" value="" id="incomeInput" required>
+                            <input class="form-control" type="text" name="categoryName" value="" >
+                            <input class="form-control" type="text" name="hiddenCategory" value="" hidden>
         
                         </div>
 
@@ -30,7 +31,7 @@
                 </div>
                 
                 <div class="modal-footer mt-2 mb-2">
-                    <button class="btn footerButtons incomeValid" type="submit">Save</button>
+                    <button class="btn footerButtons incomeValid" id="saveEdit" type="submit">Save</button>
                     
                     <button type="button" id="incomeCatSet" class="btn footerButtons" data-bs-dismiss="modal">Cancel</button>
                 </div>

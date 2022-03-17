@@ -29,6 +29,23 @@ class Settings extends Authenticated
 		echo json_encode($getCategoryIncomes);
 
 	}
+
+	public function incomeEditAction()
+	{
+		$settingsInfo = new SettingsInfo($_POST);
+
+		$editIncome = $settingsInfo->editIncomeCategory();
+
+		if($editIncome){
+			Flash::addMessage('Income category was successfuly updated');
+		}else{
+			Flash::addMessage('Something goes wrong', Flash::WARNING);
+		}
+
+		header('Content-Type: application/json');
+
+		echo json_encode($editIncome);
+	}
 	
 	public function expenseSetAction()
 	{
@@ -51,6 +68,25 @@ class Settings extends Authenticated
 
 		echo json_encode($getCategoryPayment);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public function editUserProfileAction()
 	{

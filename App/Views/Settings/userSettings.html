@@ -4,9 +4,10 @@
 
 {% block footer %}
 	
-<script>
+<script id="script">
 	showCategories();
 	validateUserSettings();
+	editCategoriesInDB();
 
 	showHidePassword('#toggler1', '.passwordShowHide1', '.showHide1');
 	showHidePassword('#toggler2', '.passwordShowHide2', '.showHide2');
@@ -193,6 +194,7 @@
 			</div>
 
 		</div>
+
 	</section>
 
 

@@ -463,14 +463,18 @@ function showCategories()
 				$('#incomeCategory').append(`
 				<div class="input-group-text ps-3 pt-0 mb-2">
 				
-				<input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="`+ res[i].name + `" id="nameInput" disabled>
+				<input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="`+ res[i].name + `" id="nameIncomeInput` + [i] + `" disabled>
 	
-				<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#incomeSettings">
+				<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#incomeSettings" id="income` + [i] + `">
 					
 					<i class="icon-edit" id="toggler"></i>
 				
 				</button>
-				</div>`
+				</div>
+				<script>$('#income` + [i] + `').click(function(){
+					$('input[name="categoryName"]').val($('#nameIncomeInput` + [i] + `').val());
+					$("input[name='hiddenCategory'").val($('#nameIncomeInput` + [i] + `').val());
+				});</script>`
 				);
 			}
 		}
@@ -521,3 +525,25 @@ function showCategories()
 	});
 }
 
+function editCategoriesInDB()
+{	
+	$('#saveEdit').click(function(){
+		var newNameCategory = $("input[name='categoryName'").val();
+		var oldNameCategory = $("input[name='hiddenCategory'").val();
+		$.ajax({
+			url: '/settings/incomeEdit',
+			method: 'POST',
+			data: {
+				newCategoryName: newNameCategory,
+				oldCategoryName: oldNameCategory
+			},
+			dataType: 'JSON',
+			success: function(res){
+				$('#sample').text('good');
+			},
+			error: function() {
+				$('#sample').text('bed');
+			}
+		});
+	});
+}

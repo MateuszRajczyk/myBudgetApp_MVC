@@ -3,29 +3,29 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Edit username</h3>
-                
+
                 <button type="button" class="close closeButton" data-bs-dismiss="modal">x</button>
             </div>
-            
-            <form class="mx-4 modalEditOptionName" id="userSetForm"  style="text-align: left;" method="post" action="/settings/editUserProfile">
+
+            <form class="mx-4 validUserName" id="userSetForm" style="text-align: left;" method="post" action="/settings/editUserProfile">
                 <div class="modal-body">
                     <h5>Enter a new username for change name and confirm password</h5>
-                    
+
                     <div class="row justify-content-left">
                         <label for="nameInput" class="form-label ps-3">Name</label>
 
                         <div class="input-group-text ps-3 pt-0 mb-2">
 
                             <input class="form-control" type="text" name="username" value="{{ name }}" id="nameInput" required>
-        
+
                         </div>
 
                         <div class="text-danger text-start ps-3 errorUsername">
 
 
-    
+
                         </div>
-                        
+
                         <label for="passwordInput" class="form-label ps-3">Password</label>
 
                         <div class="input-group-text ps-3 pt-0">
@@ -42,14 +42,14 @@
                         <div class="text-danger text-start ps-3 errorPassword">
 
 
-    
+
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="modal-footer mt-2 mb-2">
                     <button class="btn footerButtons passwordValid" type="submit">Save</button>
-                    
+
                     <button type="button" id="userSet" class="btn footerButtons" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </form>

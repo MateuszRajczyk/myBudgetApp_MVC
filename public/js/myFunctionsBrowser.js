@@ -189,6 +189,18 @@ function newValidMethods() {
         'Password needs letters and numbers'
     );
 
+    $.validator.addMethod('lettersonly',
+        function(value, element, param) {
+
+            if (value.match(/^[a-zA-Z]+$/)) {
+
+                return true;
+            }
+            return false;
+        },
+        'Name of category must have only letters'
+    );
+
 }
 
 function showHidePassword(toggler, passwordShowHide, showHide) {
@@ -212,7 +224,7 @@ function showHidePassword(toggler, passwordShowHide, showHide) {
 }
 
 function validateUsernameSettings() {
-    $('.modalEditOptionName').validate({
+    $('.validUserName').validate({
         errorElement: 'div',
         rules: {
             password: {
@@ -440,133 +452,6 @@ function showChart(nameIncome, amountIncome, nameExpense, amountExpense) {
     });
 }
 
-/*
-function showCategories() {
-    // get incomes categories from database
-    $.ajax({
-        url: '/settings/incomeSet',
-        dataType: 'json',
-        success: function(res) {
-            for (var i = 0; i < res.length; i++) {
-                $('#incomeCategory').append(`
-				<div class="input-group-text ps-3 pt-0 mb-2">
-				
-				<input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="` + res[i].name + `" id="nameIncomeInput` + [i] + `" disabled>
-	
-				<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#incomeSettings" id="income` + [i] + `">
-					
-					<i class="icon-edit" id="toggler"></i>
-				
-				</button>
-				<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#deleteIncomeSettings" id="deleteIncome` + [i] + `">
-					
-				<i class="icon-trash-empty" id="toggler"></i>
-			
-				</button>
-				</div>
-				<script>$('#income` + [i] + `').click(function(){
-					$('input[name="categoryName"]').val($('#nameIncomeInput` + [i] + `').val());
-					$("input[name='hiddenCategory'").val($('#nameIncomeInput` + [i] + `').val());
-					$("input[name='hiddenCategoryDel'").val($('#nameIncomeInput` + [i] + `').val());
-				});
-				
-				$('#deleteIncome` + [i] + `').click(function(){
-					$("input[name='hiddenCategoryDel'").val($('#nameIncomeInput` + [i] + `').val());
-				});
-				</script>`);
-            }
-        }
-    });
-
-    // get expenses categories from database
-    $.ajax({
-        url: '/settings/expenseSet',
-        dataType: 'json',
-        success: function(res) {
-            for (var i = 0; i < res.length; i++) {
-                $('#expenseCategory').append(`
-				<div class="input-group-text ps-3 pt-0 mb-2">
-				
-				<input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="` + res[i].name + `" id="nameInput" disabled>
-	
-				<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#expenseSettings">
-					
-					<i class="icon-edit" id="toggler"></i>
-				
-				</button>
-				</div>`);
-            }
-        }
-    });
-
-    // get payment methods categories from database
-    $.ajax({
-        url: '/settings/paymentSet',
-        dataType: 'json',
-        success: function(res) {
-            for (var i = 0; i < res.length; i++) {
-                $('#paymentCategory').append(`
-				<div class="input-group-text ps-3 pt-0 mb-2">
-				
-				<input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="` + res[i].name + `" id="nameInput" disabled>
-	
-				<button type="button" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#paymentSettings">
-					
-					<i class="icon-edit" id="toggler"></i>
-				
-				</button>
-				</div>`);
-            }
-        }
-    });
-}
-
-function editCategoriesInDB() {
-    $('#saveEdit').click(function() {
-        var newNameCategory = $("input[name='categoryName']").val();
-        var oldNameCategory = $("input[name='hiddenCategory']").val();
-        $.ajax({
-            url: '/settings/incomeEdit',
-            method: 'POST',
-            data: {
-                newCategoryName: newNameCategory,
-                oldCategoryName: oldNameCategory
-            },
-            dataType: 'JSON'
-        });
-    });
-}
-
-function deleteCategoriesIntoDB() {
-    $('#deleteButton').click(function() {
-        var category = $("input[name='hiddenCategoryDel']").val();
-        $.ajax({
-            url: '/settings/incomeDelete',
-            method: 'POST',
-            data: {
-                deleteCategory: category
-            },
-            dataType: 'JSON'
-        });
-    });
-}
-
-function addCategory() {
-    $('#saveNewCategory').click(function() {
-        var new_category = $('input[name="newCategoryName"]').val();
-        $.ajax({
-            url: '/settings/incomeAdd',
-            method: 'POST',
-            data: {
-                addedCategory: new_category
-            },
-            dataType: 'JSON'
-        });
-    });
-}
-
-*/
-
 function modalCategory() {
     $(document).on('click', '#addButton', function() {
         $('#addCategoryIncomeModal input[name="categoryAdded"]').val('');
@@ -589,5 +474,68 @@ function modalCategory() {
         $('#editCategoryPaymentModal input[name="categoryOldId"]').val($(this).attr('category-id'));
     });
 
+}
 
+function validateCategories() {
+    $(document).ready(function() {
+        $('.editButton').click(function() {
+            $('.errorName').empty();
+
+            $('.editValidate').each(function() {
+                $(this).validate({
+                    errorElement: 'div',
+                    rules: {
+                        categoryNewName: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 20,
+                            lettersonly: true
+                        }
+                    },
+                    messages: {
+                        categoryNewName: {
+                            required: 'Name of category is required',
+                            minlength: 'Please enter at least 3 characters for the category',
+                            maxlength: 'Please enter maximum 20 characters for the category'
+                        }
+                    },
+                    errorPlacement: function(error, element) {
+                        if (element.attr('name') == 'categoryNewName') {
+                            error.appendTo('.errorName')
+                        }
+                    }
+                });
+            });
+        });
+
+        $('.addButton').click(function() {
+            $('.errorName').empty();
+
+            $('.addValidate').each(function() {
+                $(this).validate({
+                    errorElement: 'div',
+                    rules: {
+                        categoryAdded: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 20,
+                            lettersonly: true
+                        }
+                    },
+                    messages: {
+                        categoryAdded: {
+                            required: 'Name of category is required',
+                            minlength: 'Please enter at least 3 characters for the category',
+                            maxlength: 'Please enter maximum 20 characters for the category'
+                        }
+                    },
+                    errorPlacement: function(error, element) {
+                        if (element.attr('name') == 'categoryAdded') {
+                            error.appendTo('.errorName')
+                        }
+                    }
+                });
+            });
+        });
+    });
 }

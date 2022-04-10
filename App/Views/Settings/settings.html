@@ -1,7 +1,11 @@
 {% extends "base.html" %} {% block title %}My Home Budget - Home Page{% endblock %} {% block footer %}
 
 <script>
+    validateUserSettings();
+    validateCategories();
     modalCategory();
+
+
 
     showHidePassword('#toggler1', '.passwordShowHide1', '.showHide1');
     showHidePassword('#toggler2', '.passwordShowHide2', '.showHide2');
@@ -139,7 +143,7 @@ include('/Settings/incomeSet/deleteCategory.html') }} {{ include('/Settings/inco
             <div class="row justify-content-left">
                 <form class="mt-2 text-start" id="incomeCategory">
                     <label for="incomeCollapse" class="form-label ps-3 fw-bold">Income Categories
-                        <button class="inputIcon" id="addButton" style="font-size: 18px; font-weight: 600;" type="button" data-bs-toggle="modal" data-bs-target="#addCategoryIncomeModal">Add category
+                        <button class="inputIcon addButton" id="addButton" style="font-size: 18px; font-weight: 600;" type="button" data-bs-toggle="modal" data-bs-target="#addCategoryIncomeModal">Add category
                             <i class="icon-plus py-0"></i>
                         </button>
                     </label> {% for category in incomeCategory %}
@@ -147,7 +151,7 @@ include('/Settings/incomeSet/deleteCategory.html') }} {{ include('/Settings/inco
 
                         <input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="{{ category.name }}" disabled>
 
-                        <button type="button" category-name="{{ category.name }}" category-id="{{ category.id }}" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#editCategoryIncomeModal" id="editButton"><i class="icon-edit" id="toggler"></i></button>
+                        <button type="button" category-name="{{ category.name }}" category-id="{{ category.id }}" class="inputIcon userSet editButton" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#editCategoryIncomeModal" id="editButton"><i class="icon-edit" id="toggler"></i></button>
                         <button type="button" class="inputIcon userSet" delete-id="{{ category.id }}" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#deleteCategoryIncomeModal" id="deleteButton"><i class="icon-trash-empty" id="toggler"></i></button>
 
                     </div>
@@ -168,7 +172,7 @@ include('/Settings/incomeSet/deleteCategory.html') }} {{ include('/Settings/inco
             <div class="row justify-content-left">
                 <form class="mt-2 text-start" id="expenseCategory">
                     <label for="expenseCollapse" class="form-label ps-3 fw-bold">Expense Categories
-                        <button class="inputIcon" id="addButton" style="font-size: 18px; font-weight: 600;" type="button" data-bs-toggle="modal" data-bs-target="#addCategoryExpenseModal">Add category
+                        <button class="inputIcon addButton" id="addButton" style="font-size: 18px; font-weight: 600;" type="button" data-bs-toggle="modal" data-bs-target="#addCategoryExpenseModal">Add category
                             <i class="icon-plus py-0"></i>
                         </button>
                     </label> {% for category in expenseCategory %}
@@ -176,7 +180,7 @@ include('/Settings/incomeSet/deleteCategory.html') }} {{ include('/Settings/inco
 
                         <input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="{{ category.name }}" disabled>
 
-                        <button type="button" category-name="{{ category.name }}" category-id="{{ category.id }}" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#editCategoryExpenseModal" id="editButton"><i class="icon-edit" id="toggler"></i></button>
+                        <button type="button" category-name="{{ category.name }}" category-id="{{ category.id }}" class="inputIcon userSet editButton" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#editCategoryExpenseModal" id="editButton"><i class="icon-edit" id="toggler"></i></button>
                         <button type="button" class="inputIcon userSet" delete-id="{{ category.id }}" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#deleteCategoryExpenseModal" id="deleteButton"><i class="icon-trash-empty" id="toggler"></i></button>
 
                     </div>
@@ -197,7 +201,7 @@ include('/Settings/incomeSet/deleteCategory.html') }} {{ include('/Settings/inco
             <div class="row justify-content-left">
                 <form class="mt-2 text-start" id="paymentCategory">
                     <label for="paymentCategory" class="form-label ps-3 fw-bold">Payment Methods Categories
-                        <button class="inputIcon" id="addButton" style="font-size: 18px; font-weight: 600;" type="button" data-bs-toggle="modal" data-bs-target="#addCategoryPaymentModal">Add category
+                        <button class="inputIcon addButton" id="addButton" style="font-size: 18px; font-weight: 600;" type="button" data-bs-toggle="modal" data-bs-target="#addCategoryPaymentModal">Add category
                             <i class="icon-plus py-0"></i>
                         </button>
                     </label> {% for category in paymentCategory %}
@@ -205,7 +209,7 @@ include('/Settings/incomeSet/deleteCategory.html') }} {{ include('/Settings/inco
 
                         <input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="{{ category.name }}" disabled>
 
-                        <button type="button" category-name="{{ category.name }}" category-id="{{ category.id }}" class="inputIcon userSet" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#editCategoryPaymentModal" id="editButton"><i class="icon-edit" id="toggler"></i></button>
+                        <button type="button" category-name="{{ category.name }}" category-id="{{ category.id }}" class="inputIcon userSet editButton" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#editCategoryPaymentModal" id="editButton"><i class="icon-edit" id="toggler"></i></button>
                         <button type="button" class="inputIcon userSet" delete-id="{{ category.id }}" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#deleteCategoryPaymentModal" id="deleteButton"><i class="icon-trash-empty" id="toggler"></i></button>
 
                     </div>

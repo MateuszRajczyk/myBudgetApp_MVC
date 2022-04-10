@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use \Core\View;
-use \App\Auth;
 use \App\Flash;
 use App\Models\addExpense;
 use App\Models\addIncome;
@@ -45,15 +44,14 @@ class Settings extends Authenticated
 				Flash::addMessage('Password was successfuly updated');
 			}
 			
-
-			View::renderTemplate('Settings/userSettings.html',
+			View::renderTemplate('Settings/settings.html',
 			['name' => $_SESSION['username'],
 			'email' => $_SESSION['email'],
 			'password' => $_SESSION['password']]);
 		}
 		else
 		{
-			$this->redirect('/settings/userSet');
+			$this->redirect('/settings/editUserProfile');
 		}
 	}
 

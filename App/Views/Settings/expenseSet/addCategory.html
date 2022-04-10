@@ -1,0 +1,38 @@
+<div class="modal hide fade in" tabindex="-1" role="dialog" id="addCategoryExpenseModal" data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add category</h3>
+
+                <button type="button" class="close closeButton" data-bs-dismiss="modal">x</button>
+            </div>
+
+            <form class="mx-4 modalEditOptionExpenseCategory" id="expenseSetForm" style="text-align: left;" method="post" action="/settings/add-expense-category">
+                <div class="modal-body">
+                    <h5>Please enter name for new category.</h5>
+
+                    <div class="row justify-content-left">
+                        <label for="nameInput" class="form-label ps-3">Category Name</label>
+
+                        <div class="input-group-text ps-3 pt-0 mb-2">
+
+                            <input class="form-control" type="text" name="categoryAdded" value="">
+
+                        </div>
+
+                        <div class="text-danger text-start ps-3 errorExpenseName">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer mt-2 mb-2">
+                    <button class="btn footerButtons expenseValid" id="saveNewCategory" type="submit">Save</button>
+
+                    <button type="button" id="expenseCatSet" class="btn footerButtons" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

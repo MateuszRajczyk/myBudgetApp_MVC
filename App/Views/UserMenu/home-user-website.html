@@ -1,78 +1,71 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}My Home Budget - Home Page{% endblock %} {% block footer %}
 
-{% block title %}My Home Budget - Home Page{% endblock %}
+<script>
+</script>
+{% endblock %} {% block body %}
 
-{% block footer %}
-	
-	<script>
-	
-	</script>
-{% endblock %}
+<nav class="navbar navbar-light bg-navigation navbar-expand-lg mb-2">
 
-{% block body %}
-
-	<nav class="navbar navbar-light bg-navigation navbar-expand-lg mb-2">
-	
-		<button class="navbar-toggler ms-2 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Navigation toggler">
+    <button class="navbar-toggler ms-2 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Navigation toggler">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-	
-		<div class="collapse navbar-collapse  " id="mainMenu">
-			<div class="container">
-				<div class="row ms-1 ">
-					<ul class="navbar-nav">
-					
-						<li class="nav-item disabled col-lg-2">
-							<a class="nav-link" href="user-main"><i class="icon-home"></i>Home</a>
-						</li>
-						
-						<li class="nav-item col-lg-2">
-							<a class="nav-link" href="/income/new"><i class="icon-money"></i>Add Income</a>
-						</li>
-						
-						<li class="nav-item col-lg-2">
-							<a class="nav-link" href="/expense/new"><i class="icon-dollar"></i>Add Expense</a>
-						</li>
-						
-						<li class="nav-item dropdown col-lg-2">
-							<a class="nav-link" href="" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie-alt" ></i>Show Balance</a>
-							
-							<div class="dropdown-menu">
-							
-								<a class="dropdown-item" href="/balance/current-month"> Current Month </a>
-								<a class="dropdown-item" href="/balance/last-month"> Last Month </a>
-								<a class="dropdown-item" href="/balance/current-year"> Current Year </a>
-								<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#dateModal"> Selected Period </a>
-							
-							</div>
-							
-						</li>
-						
-						<li class="nav-item dropdown col-lg-2">
-							<a class="nav-link" href="/settings/userSet"><i class="icon-cog"></i>Settings</a>
-						</li>
-						
-						<li class="nav-item col-lg-2">
-							<a class="nav-link" href="/logout"><i class="icon-logout"></i>Sign out</a>
-						</li>
-					
-					</ul>
-				</div>
-			</div>
-		</div>
-	
-	</nav>
+
+    <div class="collapse navbar-collapse  " id="mainMenu">
+        <div class="container">
+            <div class="row ms-1 ">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item disabled col-lg-2">
+                        <a class="nav-link" href="user-main"><i class="icon-home"></i>Home</a>
+                    </li>
+
+                    <li class="nav-item col-lg-2">
+                        <a class="nav-link" href="/income/new"><i class="icon-money"></i>Add Income</a>
+                    </li>
+
+                    <li class="nav-item col-lg-2">
+                        <a class="nav-link" href="/expense/new"><i class="icon-dollar"></i>Add Expense</a>
+                    </li>
+
+                    <li class="nav-item dropdown col-lg-2">
+                        <a class="nav-link" href="" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie-alt" ></i>Show Balance</a>
+
+                        <div class="dropdown-menu">
+
+                            <a class="dropdown-item" href="/balance/current-month"> Current Month </a>
+                            <a class="dropdown-item" href="/balance/last-month"> Last Month </a>
+                            <a class="dropdown-item" href="/balance/current-year"> Current Year </a>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#dateModal"> Selected Period </a>
+
+                        </div>
+
+                    </li>
+
+                    <li class="nav-item dropdown col-lg-2">
+                        <a class="nav-link" href="/settings/profileSettings"><i class="icon-cog"></i>Settings</a>
+                    </li>
+
+                    <li class="nav-item col-lg-2">
+                        <a class="nav-link" href="/logout"><i class="icon-logout"></i>Sign out</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</nav>
 
 
-	{{ include('selectPeriod.html') }}
-	
-	<div class="bg-description">
-		<div class="p-2 nameLabel">Hello {{ current_user.username }} !</div>
-		<section class="container-fluid ">
-			<div class="row justify-content-center g-0" >
-				<img src="/img/backg.jpg" id="backgroundImage" class="mt-2 mb-2" alt="background image, computer to menage finances"/>
-			</div>
-		</section>
-	</div>
-		
+{{ include('selectPeriod.html') }}
+
+<div class="bg-description">
+    <div class="p-2 nameLabel">Hello {{ current_user.username }} !</div>
+    <section class="container-fluid ">
+        <div class="row justify-content-center g-0">
+            <img src="/img/backg.jpg" id="backgroundImage" class="mt-2 mb-2" alt="background image, computer to menage finances" />
+        </div>
+    </section>
+</div>
+
 {% endblock %}

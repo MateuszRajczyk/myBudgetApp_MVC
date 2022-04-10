@@ -77,6 +77,20 @@ class addIncome extends \Core\Model
         }
 
     }
+
+	public static function deleteIncomesAssignedToGivenCategory($category)
+	{
+		$sql = "DELETE FROM incomes WHERE userId=:userId AND incomeCategoryAssignedToUserId=:idCategory";
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':idCategory', $category->categoryIdDel, PDO::PARAM_INT);
+
+        return $stmt->execute();
+	}
 	
 
 }

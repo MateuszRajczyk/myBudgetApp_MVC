@@ -36,7 +36,7 @@ class SettingsInfo extends \Core\Model
 
     public function getIncomeCategoriesInfo()
     {
-        $sql = "SELECT name FROM incomes_category_assigned_to_users WHERE userId=:userId";
+        $sql = "SELECT id, name FROM incomes_category_assigned_to_users WHERE userId=:userId";
         
         $db = static::getDB();
 
@@ -51,7 +51,7 @@ class SettingsInfo extends \Core\Model
 
     public function getExpenseCategoriesInfo()
     {
-        $sql = "SELECT name FROM expenses_category_assigned_to_users WHERE userId=:userId";
+        $sql = "SELECT id,name FROM expenses_category_assigned_to_users WHERE userId=:userId";
         
         $db = static::getDB();
 
@@ -66,7 +66,7 @@ class SettingsInfo extends \Core\Model
 
     public function getPaymentMethodsCategoriesInfo()
     {
-        $sql = "SELECT name FROM payment_methods_assigned_to_users WHERE userId=:userId";
+        $sql = "SELECT id,name FROM payment_methods_assigned_to_users WHERE userId=:userId";
         
         $db = static::getDB();
 
@@ -81,15 +81,129 @@ class SettingsInfo extends \Core\Model
 
     public function editIncomeCategory()
     {
-        $sql = "UPDATE incomes_category_assigned_to_users SET name=:newName WHERE userId=:userId AND name=:oldName";
+        $sql = "UPDATE incomes_category_assigned_to_users SET name=:newName WHERE userId=:userId AND id=:oldId";
         
         $db = static::getDB();
 
         $stmt = $db->prepare($sql);
 
         $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
-        $stmt->bindValue(':newName', $this->newCategoryName, PDO::PARAM_STR);
-        $stmt->bindValue(':oldName', $this->oldCategoryName, PDO::PARAM_STR);
+        $stmt->bindValue(':newName', $this->categoryNewName, PDO::PARAM_STR);
+        $stmt->bindValue(':oldId', $this->categoryOldId, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public function deleteIncomeCategory()
+    {
+        $sql = "DELETE FROM incomes_category_assigned_to_users WHERE userId=:userId AND id=:idCategory";
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':idCategory', $this->categoryIdDel, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function addIncomeCategory()
+    {
+        $sql = "INSERT INTO incomes_category_assigned_to_users(userId, name) VALUES (:user_id, :nameCat)";
+
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':nameCat', $this->categoryAdded, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public function editExpenseCategory()
+    {
+        $sql = "UPDATE expenses_category_assigned_to_users SET name=:newName WHERE userId=:userId AND id=:oldId";
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':newName', $this->categoryNewName, PDO::PARAM_STR);
+        $stmt->bindValue(':oldId', $this->categoryOldId, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function deleteExpenseCategory()
+    {
+        $sql = "DELETE FROM expenses_category_assigned_to_users WHERE userId=:userId AND id=:idCategory";
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':idCategory', $this->categoryIdDel, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function addExpenseCategory()
+    {
+        $sql = "INSERT INTO expenses_category_assigned_to_users(userId, name) VALUES (:user_id, :nameCat)";
+
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':nameCat', $this->categoryAdded, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public function editPaymentCategory()
+    {
+        $sql = "UPDATE payment_methods_assigned_to_users SET name=:newName WHERE userId=:userId AND id=:oldId";
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':newName', $this->categoryNewName, PDO::PARAM_STR);
+        $stmt->bindValue(':oldId', $this->categoryOldId, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function deletePaymentCategory()
+    {
+        $sql = "DELETE FROM payment_methods_assigned_to_users WHERE userId=:userId AND id=:idCategory";
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':idCategory', $this->categoryIdDel, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function addPaymentCategory()
+    {
+        $sql = "INSERT INTO payment_methods_assigned_to_users(userId, name) VALUES (:user_id, :nameCat)";
+
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':nameCat', $this->categoryAdded, PDO::PARAM_STR);
 
         return $stmt->execute();
     }

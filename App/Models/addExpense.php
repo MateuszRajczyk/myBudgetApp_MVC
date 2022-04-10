@@ -98,6 +98,34 @@ class addExpense extends \Core\Model
         }
 
     }
+
+	public static function deleteExpensesAssignedToGivenCategory($category)
+	{
+		$sql = "DELETE FROM expenses WHERE userId=:userId AND expenseCategoryAssignedToUserId=:idCategory";
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':idCategory', $category->categoryIdDel, PDO::PARAM_INT);
+
+        return $stmt->execute();
+	}
+
+	public static function deleteExpensesAssignedToGivenPaymentMethod($category)
+	{
+		$sql = "DELETE FROM expenses WHERE userId=:userId AND paymentMethodAssignedToUserId=:idCategory";
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':idCategory', $category->categoryIdDel, PDO::PARAM_INT);
+
+        return $stmt->execute();
+	}
 	
 
 }

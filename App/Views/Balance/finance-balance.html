@@ -1,257 +1,237 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}My Home Budget - Home Page{% endblock %} {% block footer %}
 
-{% block title %}My Home Budget - Home Page{% endblock %}
+<script>
+    expandTableRows();
 
-{% block footer %}
-	
-	<script>
-		expandTableRows();
+    var nameCatIncome = [];
+    var amountCatIncome = [];
 
-		var nameCatIncome = [];
-		var amountCatIncome = [];
+    var nameCatExpense = [];
+    var amountCatExpense = [];
 
-		var nameCatExpense = [];
-		var amountCatExpense = [];
+    '{% for catIncome in financeData.categoryIncomes %}'
+    nameCatIncome.push('{{ catIncome["name"] }}');
+    amountCatIncome.push('{{ catIncome["catIncomeAmount"] }}');
+    '{% endfor %}'
 
-		'{% for catIncome in financeData.categoryIncomes %}'
-			nameCatIncome.push('{{ catIncome["name"] }}');
-			amountCatIncome.push('{{ catIncome["catIncomeAmount"] }}');
-		'{% endfor %}'
+    '{% for catExpense in financeData.categoryExpenses %}'
+    nameCatExpense.push('{{ catExpense["name"] }}');
+    amountCatExpense.push('{{ catExpense["catExpenseAmount"] }}');
+    '{% endfor %}'
 
-		'{% for catExpense in financeData.categoryExpenses %}'
-			nameCatExpense.push('{{ catExpense["name"] }}');
-			amountCatExpense.push('{{ catExpense["catExpenseAmount"] }}');
-		'{% endfor %}'
+    showChart(nameCatIncome, amountCatIncome, nameCatExpense, amountCatExpense);
+</script>
 
-		showChart(nameCatIncome, amountCatIncome, nameCatExpense, amountCatExpense);
 
-	</script>
+{% endblock %} {% block body %}
+<nav class="navbar navbar-light bg-navigation navbar-expand-lg mb-2">
 
-	
-{% endblock %}
-
-{% block body %}
-	<nav class="navbar navbar-light bg-navigation navbar-expand-lg mb-2">
-	
-		<button class="navbar-toggler ms-2 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Navigation toggler">
+    <button class="navbar-toggler ms-2 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Navigation toggler">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-	
-		<div class="collapse navbar-collapse  " id="mainMenu">
-			<div class="container">
-				<div class="row ms-1 ">
-					<ul class="navbar-nav">
-					
-						<li class="nav-item col-lg-2">
-							<a class="nav-link" href="/usermenu/usermain"><i class="icon-home"></i>Home</a>
-						</li>
-						
-						<li class="nav-item col-lg-2">
-							<a class="nav-link" href="/income/new"><i class="icon-money"></i>Add Income</a>
-						</li>
-						
-						<li class="nav-item col-lg-2">
-							<a class="nav-link" href="/expense/new"><i class="icon-dollar"></i>Add Expense</a>
-						</li>
-						
-						<li class="nav-item disabled dropdown col-lg-2">
-							<a class="nav-link" href="#" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie-alt" ></i>Show Balance</a>
-							
-							<div class="dropdown-menu" aria-labelledby="submenu">
-							
-								<a class="dropdown-item" href="/balance/current-month" > Current Month </a>
-								<a class="dropdown-item" href="/balance/last-month" > Last Month </a>
-								<a class="dropdown-item" href="/balance/current-year" > Current Year </a>
-								<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#dateModal"> Selected Period </a>
-							
-							</div>
-							
-						</li>
-						
-						<li class="nav-item dropdown col-lg-2">
-							<a class="nav-link" href="/settings/userSet"><i class="icon-cog"></i>Settings</a>
-						</li>
-						
-						<li class="nav-item col-lg-2">
-							<a class="nav-link" href="/logout"><i class="icon-logout"></i>Sign out</a>
-						</li>
-					
-					</ul>
-				</div>
-			</div>
-		</div>
-	
-	</nav>
+
+    <div class="collapse navbar-collapse  " id="mainMenu">
+        <div class="container">
+            <div class="row ms-1 ">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item col-lg-2">
+                        <a class="nav-link" href="/usermenu/usermain"><i class="icon-home"></i>Home</a>
+                    </li>
+
+                    <li class="nav-item col-lg-2">
+                        <a class="nav-link" href="/income/new"><i class="icon-money"></i>Add Income</a>
+                    </li>
+
+                    <li class="nav-item col-lg-2">
+                        <a class="nav-link" href="/expense/new"><i class="icon-dollar"></i>Add Expense</a>
+                    </li>
+
+                    <li class="nav-item disabled dropdown col-lg-2">
+                        <a class="nav-link" href="#" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie-alt" ></i>Show Balance</a>
+
+                        <div class="dropdown-menu" aria-labelledby="submenu">
+
+                            <a class="dropdown-item" href="/balance/current-month"> Current Month </a>
+                            <a class="dropdown-item" href="/balance/last-month"> Last Month </a>
+                            <a class="dropdown-item" href="/balance/current-year"> Current Year </a>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#dateModal"> Selected Period </a>
+
+                        </div>
+
+                    </li>
+
+                    <li class="nav-item dropdown col-lg-2">
+                        <a class="nav-link" href="/settings/profileSettings"><i class="icon-cog"></i>Settings</a>
+                    </li>
+
+                    <li class="nav-item col-lg-2">
+                        <a class="nav-link" href="/logout"><i class="icon-logout"></i>Sign out</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</nav>
 
 
-	{{ include('selectPeriod.html') }}
+{{ include('selectPeriod.html') }}
 
 
-	<div class="bg-description-showBalance">
-		<section class="container-fluid">
-			<div class="row ">
-				<div class="col-12 mt-2 ">
-					<h5>
-					
-						<span class="chosenTimePeriod" >{{ financeData.startDate|date("d.m.Y") }}</span>
-						
-						-
-						
-						<span class="chosenTimePeriod" >{{ financeData.endDate|date("d.m.Y") }}</span>
-					
-					
-					</h5>
-					
-					<div class="btn-group choiceTimeButton me-4 mt-1">
-						<button class="btn dropdown-toggle  " type="button" id="submenu" data-bs-toggle="dropdown" ><i class="icon-calendar"></i>Choose date</button>
-						
-						<div class="dropdown-menu dropdown-menu-end" aria-labelledby="submenu">
-							<a class="dropdown-item" href="/balance/current-month">Current Month</a>
-							<a class="dropdown-item" href="/balance/last-month">Last Month</a>
-							<a class="dropdown-item" href="/balance/current-year">Current Year</a>
-							<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#dateModal">Selected period</a>
-						</div>
-					</div>
-				</div>
-			</div>	
-		</section>
-	</div>	
+<div class="bg-description-showBalance">
+    <section class="container-fluid">
+        <div class="row ">
+            <div class="col-12 mt-2 ">
+                <h5>
 
-	<div class="container-fluid container-lg">
-		<div class="row justify-content-center mt-3">
-			<div class="table-responsive col-10"> 
-				<table class="table table-bordered mb-0 caption-top table-sm">
-				
-						<thead>
-							{% if financeData.categoryIncomes is not empty %}
-								<tr>
-									<th>Category</th>
-									<th >Amount</th>
-									<th></th>
-								</tr>
-							{% endif %}
-						</thead>
+                    <span class="chosenTimePeriod">{{ financeData.startDate|date("d.m.Y") }}</span> -
 
-						<tbody>
-							{% for catIncome in financeData.categoryIncomes %}
-								<tr class="header">
-									<td class="category incomeCat">{{ catIncome['name'] }}</td>
-									<td class="amount">{{ catIncome['catIncomeAmount'] }}</td>	
-									<td class="btnC">
-										<button class="btn p-0 m-0 px-1" style="float: right; font-size: 15px;" type="button" ><i class="icon-down-open"></i></button>
-									</td>
+                    <span class="chosenTimePeriod">{{ financeData.endDate|date("d.m.Y") }}</span>
 
-								</tr>
-								
-								{% for Income in financeData.allIncomes %}
-								
-									{% if Income['name'] == catIncome['name'] %}
-										<tr class="qq">
 
-											<td>{{ Income['amount'] }}</td>
+                </h5>
 
-											<td>{{ Income['dateOfIncome'] }}</td>
+                <div class="btn-group choiceTimeButton me-4 mt-1">
+                    <button class="btn dropdown-toggle  " type="button" id="submenu" data-bs-toggle="dropdown"><i class="icon-calendar"></i>Choose date</button>
 
-											{% if Income['incomeComment'] is not empty %}
-												<td >{{ Income['incomeComment'] }}</td>
-											{% else %}
-												<td >-</td>
-											{% endif %}
-										</tr>
-									{% endif %}
-								{% endfor %}
-							{% endfor %}
-							
-							<caption style="border-style: none;" class="p-1">Incomes</caption>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="submenu">
+                        <a class="dropdown-item" href="/balance/current-month">Current Month</a>
+                        <a class="dropdown-item" href="/balance/last-month">Last Month</a>
+                        <a class="dropdown-item" href="/balance/current-year">Current Year</a>
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#dateModal">Selected period</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
-							<tr class="summary table-dark">
-								<td class="total">TOTAL</td>
-								<td class="sum" colspan="3">{{ financeData.countIncomes }} PLN</td>
-							</tr>
-						</tbody>
-				</table>
+<div class="container-fluid container-lg">
+    <div class="row justify-content-center mt-3">
+        <div class="table-responsive col-10">
+            <table class="table table-bordered mb-0 caption-top table-sm">
 
-				<table class="table table-bordered mb-0 caption-top table-sm mt-5">
-				
-					<thead>
-						{% if financeData.categoryExpenses is not empty %}
-							<tr>
-								<th>Category</th>
-								<th >Amount</th>
-								<th></th>
-							</tr>
-						{% endif %}
-					</thead>
+                <thead>
+                    {% if financeData.categoryIncomes is not empty %}
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th></th>
+                    </tr>
+                    {% endif %}
+                </thead>
 
-					<tbody>
-						{% for catExpense in financeData.categoryExpenses %}
-							<tr class="header">
-								<td class="category">{{ catExpense['name'] }}</td>
-								<td class="amount">{{ catExpense['catExpenseAmount'] }}</td>	
-								<td class="btnC">
-									<button class="btn p-0 m-0 px-1" style="float: right; font-size: 15px;" type="button" ><i class="icon-down-open"></i></button>
-								</td>
+                <tbody>
+                    {% for catIncome in financeData.categoryIncomes %}
+                    <tr class="header">
+                        <td class="category incomeCat">{{ catIncome['name'] }}</td>
+                        <td class="amount">{{ catIncome['catIncomeAmount'] }}</td>
+                        <td class="btnC">
+                            <button class="btn p-0 m-0 px-1" style="float: right; font-size: 15px;" type="button"><i class="icon-down-open"></i></button>
+                        </td>
 
-							</tr>
-							
-							{% for Expense in financeData.allExpenses %}
-							
-								{% if Expense['name'] == catExpense['name'] %}
-									<tr class="qq">
+                    </tr>
 
-										<td>{{ Expense['amount'] }}</td>
+                    {% for Income in financeData.allIncomes %} {% if Income['name'] == catIncome['name'] %}
+                    <tr class="qq">
 
-										<td>{{ Expense['dateOfExpense'] }}</td>
+                        <td>{{ Income['amount'] }}</td>
 
-										{% if Expense['expenseComment'] is not empty %}
-											<td >{{ Expense['expenseComment'] }}</td>
-										{% else %}
-											<td >-</td>
-										{% endif %}
-									</tr>
-								{% endif %}
-							{% endfor %}
-						{% endfor %}
-						
-						<caption style="border-style: none;" class="p-1">Expenses</caption>
+                        <td>{{ Income['dateOfIncome'] }}</td>
 
-						<tr class="summary table-dark">
-							<td class="total">TOTAL</td>
-							<td class="sum" colspan="3">{{ financeData.countExpenses }} PLN</td>
-						</tr>
-					</tbody>
-			</table>
-			</div>
+                        {% if Income['incomeComment'] is not empty %}
+                        <td>{{ Income['incomeComment'] }}</td>
+                        {% else %}
+                        <td>-</td>
+                        {% endif %}
+                    </tr>
+                    {% endif %} {% endfor %} {% endfor %}
 
-		</div>
+                    <caption style="border-style: none;" class="p-1">Incomes</caption>
+
+                    <tr class="summary table-dark">
+                        <td class="total">TOTAL</td>
+                        <td class="sum" colspan="3">{{ financeData.countIncomes }} PLN</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-bordered mb-0 caption-top table-sm mt-5">
+
+                <thead>
+                    {% if financeData.categoryExpenses is not empty %}
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th></th>
+                    </tr>
+                    {% endif %}
+                </thead>
+
+                <tbody>
+                    {% for catExpense in financeData.categoryExpenses %}
+                    <tr class="header">
+                        <td class="category">{{ catExpense['name'] }}</td>
+                        <td class="amount">{{ catExpense['catExpenseAmount'] }}</td>
+                        <td class="btnC">
+                            <button class="btn p-0 m-0 px-1" style="float: right; font-size: 15px;" type="button"><i class="icon-down-open"></i></button>
+                        </td>
+
+                    </tr>
+
+                    {% for Expense in financeData.allExpenses %} {% if Expense['name'] == catExpense['name'] %}
+                    <tr class="qq">
+
+                        <td>{{ Expense['amount'] }}</td>
+
+                        <td>{{ Expense['dateOfExpense'] }}</td>
+
+                        {% if Expense['expenseComment'] is not empty %}
+                        <td>{{ Expense['expenseComment'] }}</td>
+                        {% else %}
+                        <td>-</td>
+                        {% endif %}
+                    </tr>
+                    {% endif %} {% endfor %} {% endfor %}
+
+                    <caption style="border-style: none;" class="p-1">Expenses</caption>
+
+                    <tr class="summary table-dark">
+                        <td class="total">TOTAL</td>
+                        <td class="sum" colspan="3">{{ financeData.countExpenses }} PLN</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 
 
 
-	</div>
-	
-	<div class="row justify-content-center col-12">
-		<div class="financeBalance col-5 col-md-4 col-lg-3 mt-5 p-2 row justify-content-center" style="border-radius: 5px">
-				<div>Balance: {{ financeData.balance }} PLN</div>
-		</div>
-				{% if financeData.balance < 0 %}
-					<div class='p-3' style='color:#cf1919; font-weight: 700; font-size: 18px;'>You are losing money! Improve your money management and start saving!</div>
-				{% elseif financeData.balance > 0 %}
-					<div class='p-3' style='color:#31ad39; font-weight: 700;font-size: 18px;'>Perfect, you have savings! Keep it up!</div>
-				{% else %}
-					<div class='p-3' style='color:#4f4646; font-weight: 700; font-size: 18px;'>No losses and no savings!</div>
-				{% endif %}
-	</div>
+</div>
 
-	<div class="row justify-content-center col-12 mt-3 mb-3">
-		{% if financeData.categoryIncomes is not empty %}
-			<div class="col-3"><canvas id="chart1" width="400" height="400"></canvas></div>
-		{% endif %}
+<div class="row justify-content-center col-12">
+    <div class="financeBalance col-5 col-md-4 col-lg-3 mt-5 p-2 row justify-content-center" style="border-radius: 5px">
+        <div>Balance: {{ financeData.balance }} PLN</div>
+    </div>
+    {% if financeData.balance
+    < 0 %} <div class='p-3' style='color:#cf1919; font-weight: 700; font-size: 18px;'>You are losing money! Improve your money management and start saving!</div>
+{% elseif financeData.balance > 0 %}
+<div class='p-3' style='color:#31ad39; font-weight: 700;font-size: 18px;'>Perfect, you have savings! Keep it up!</div>
+{% else %}
+<div class='p-3' style='color:#4f4646; font-weight: 700; font-size: 18px;'>No losses and no savings!</div>
+{% endif %}
+</div>
+
+<div class="row justify-content-center col-12 mt-3 mb-3">
+    {% if financeData.categoryIncomes is not empty %}
+    <div class="col-3"><canvas id="chart1" width="400" height="400"></canvas></div>
+    {% endif %} {% if financeData.categoryExpenses is not empty %}
+    <div class="col-3"><canvas id="chart2" width="400" height="400"></canvas></div>
+    {% endif %}
+</div>
 
 
-		{% if financeData.categoryExpenses is not empty %}
-			<div class="col-3"><canvas id="chart2" width="400" height="400"></canvas></div>
-		{% endif %}
-	</div>
-
-	
 {% endblock %}

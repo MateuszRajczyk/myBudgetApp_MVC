@@ -1,4 +1,4 @@
-<div class="modal hide fade in" tabindex="-1" role="dialog" id="deleteCategoryIncomeModal" data-bs-backdrop="static">
+<div class="modal hide fade in" tabindex="-1" role="dialog" id="deleteCategoryPaymentModal" data-bs-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,19 +7,19 @@
                 <button type="button" class="close closeButton" data-bs-dismiss="modal">x</button>
             </div>
 
-            <form class="mx-4 modalEditOptionIncomeCategory" id="incomeSetForm" style="text-align: left;" method="post" action="/settings/delete-income-category">
+            <form class="mx-4" style="text-align: left;" method="post" action="/settings/delete-payment-category">
                 <div class="modal-body">
                     <h5>Are you sure you want to delete the category? </h5>
 
-                    <p> If you delete the category all of your incomes assigned to this category will be automatically deleted.</p>
+                    <p> If you delete the category all of your expenses assigned to this payment method will be automatically deleted.</p>
 
                     <input class="form-control" type="text" name="categoryIdDel" value="" hidden>
                 </div>
 
                 <div class="modal-footer mt-2 mb-2">
-                    <button class="btn footerButtons incomeValid" type="submit">Delete</button>
+                    <button class="btn footerButtons paymentValid" type="submit">Delete</button>
 
-                    <button type="button" id="incomeCatSet" class="btn footerButtons" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="paymentCatSet" class="btn footerButtons" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </form>
         </div>

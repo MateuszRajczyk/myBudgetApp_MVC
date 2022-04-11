@@ -42,4 +42,15 @@ class Expense extends Authenticated
 		}
 	}
 
+	public function showLimitInfoCategoryAction()
+	{
+		$expense = new addExpense($_POST);
+
+		$limit = $expense->getLimitInfoCategory();
+
+		header('Content-Type: application/json');
+
+		echo json_encode($limit);
+	}
+
 }

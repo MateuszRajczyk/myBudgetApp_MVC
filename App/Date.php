@@ -38,4 +38,14 @@ class Date
 	{
 		return date('Y-n-j', strtotime('last day of December this year'));
 	}
+
+	public static function getMonthStartDate($date)
+	{
+		return date('Y-m-01', strtotime($date));
+	}
+
+	public static function getMonthEndDate($date)
+	{
+		return date('Y-m-t', strtotime($date));
+	}
 }

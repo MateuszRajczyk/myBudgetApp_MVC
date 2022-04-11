@@ -2,6 +2,7 @@
 
 <script>
     validateItemForm();
+    showLimitInfo();
 </script>
 {% endblock %} {% block body %}
 
@@ -110,6 +111,27 @@
 <div class="bg-description">
     <section class="container">
         <div class="row justify-content-center">
+            <div class="limitInfo col-10" hidden>
+                <table class="table table-responsive table-borderless mb-0 table-sm">
+                    <thead>
+                        <tr>
+                            <th>Limit Category</th>
+                            <th>Previous Expenses</th>
+                            <th>Remaining To Use</th>
+                            <th>All Current Expense</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td class="limit"></td>
+                            <td class="previousExp"></td>
+                            <td class="remaining"></td>
+                            <td class="allExp"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <form class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 px-4 pt-4 pb-4 my-4 bg-white formStart" method="post" action="/expense/add" id="addItemForm">
 

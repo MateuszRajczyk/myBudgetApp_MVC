@@ -3,30 +3,30 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Edit email</h3>
-                
+
                 <button type="button" class="close closeButton" data-bs-dismiss="modal">x</button>
             </div>
-            
+
             <form class="mx-4 modalEditOptionEmail" id="emailSetForm" style="text-align: left;" method="post" action="/settings/editUserProfile">
                 <div class="modal-body">
                     <h5>Enter a new email and confirm password</h5>
-                    
+
                     <div class="row justify-content-left">
-                        <label for="emailInput" class="form-label ps-3">Email</label>
+                        <label for="emailInput" class="form-label ps-3 modalLabel">Email</label>
 
                         <div class="input-group-text ps-3 pt-0 mb-2">
 
                             <input class="form-control" type="email" name="email" value="{{ email }}" id="emailInput">
-        
+
                         </div>
 
                         <div class="text-danger text-start ps-3 errorEmail">
 
 
-    
+
                         </div>
-                        
-                        <label for="passwordInput" class="form-label ps-3">Password</label>
+
+                        <label for="passwordInput" class="form-label ps-3 modalLabel">Password</label>
 
                         <div class="input-group-text ps-3 pt-0">
 
@@ -42,14 +42,14 @@
                         <div class="text-danger text-start ps-3 errorPassword">
 
 
-    
+
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="modal-footer mt-2 mb-2">
                     <button class="btn footerButtons passwordValid" type="submit">Save</button>
-                    
+
                     <button type="button" id="emailSet" class="btn footerButtons" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </form>

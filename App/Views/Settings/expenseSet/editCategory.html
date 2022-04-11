@@ -12,7 +12,7 @@
                     <h5>Please enter new name for the selected category.</h5>
 
                     <div class="row justify-content-left">
-                        <label for="nameInput" class="form-label ps-3">Category Name</label>
+                        <label class="form-label ps-3 modalLabel">Category Name</label>
 
                         <div class="input-group-text ps-3 pt-0 mb-2">
 
@@ -22,6 +22,20 @@
                         </div>
 
                         <div class="text-danger text-start ps-3 errorName">
+                        </div>
+
+                        <div class="input-group-text ps-3 pt-0 mb-2">
+                            <input type="checkbox" class="form-check-input p-0 m-0 me-2 limitEnable" id="enableLimit">
+                            <label class="form-check-label" for="enableLimit">Enable limit amount for category</label>
+                        </div>
+
+                        <label class="form-label modalLabel">Monthly Limit Amount</label>
+
+                        <div class="input-group-text ps-3 pt-0 mb-2">
+                            <input type="number" name="monthlyLimitAmount" class="form-control amountEnable" id="limitAmount">
+                        </div>
+
+                        <div class="text-danger text-start ps-3 errorLimit">
                         </div>
 
                     </div>

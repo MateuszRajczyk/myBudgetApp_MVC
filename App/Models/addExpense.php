@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Token;
 use PDO;
+use \App\Date;
 
 class addExpense extends \Core\Model
 {
@@ -125,6 +126,36 @@ class addExpense extends \Core\Model
         $stmt->bindValue(':idCategory', $category->categoryIdDel, PDO::PARAM_INT);
 
         return $stmt->execute();
+	}
+
+	public function getLimitInfoCategory()
+	{
+		$startDate = Date::getMonthStartDate($this->date);
+		$endDate = Date::getMonthEndDate($this->date);
+
+		$sql = 'SELECT SUM(amount) 
+				AS catSumAmount, expenses_category_assigned_to_users.limitAmount
+				FROM expenses, expenses_category_assigned_to_users
+				WHERE expenses.userId = :userId 
+				AND expenses_category_assigned_to_users.id = (SELECT id FROM expenses_category_assigned_to_users WHERE userId=:userId AND name=:category)
+				AND expenses.userId = expenses_category_assigned_to_users.userId 
+				AND expenses.expenseCategoryAssignedToUserId = expenses_category_assigned_to_users.id 
+				AND expenses.dateOfExpense >=:date1 
+				AND expenses.dateOfExpense <=:date2 
+				GROUP BY expenses.expenseCategoryAssignedToUserId';
+		
+		$db = static::getDB();
+		
+		$stmt = $db->prepare($sql);
+		
+		$stmt->bindParam(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+		$stmt->bindParam(':category', $this->category, PDO::PARAM_STR);
+		$stmt->bindParam(':date1', $startDate, PDO::PARAM_STR);
+		$stmt->bindParam(':date2', $endDate, PDO::PARAM_STR);
+	
+		$stmt->execute();
+		
+		return $stmt->fetchAll();
 	}
 	
 

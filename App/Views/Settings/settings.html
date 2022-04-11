@@ -81,7 +81,8 @@
 
 {{ include('selectPeriod.html') }} {{ include('/Settings/userSet/usernameSet.html') }} {{ include('/Settings/userSet/emailSet.html') }} {{ include('/Settings/userSet/passwordSet.html') }} {{ include('/Settings/incomeSet/editCategoryIncome.html') }} {{
 include('/Settings/incomeSet/deleteCategory.html') }} {{ include('/Settings/incomeSet/addCategory.html') }} {{ include('/Settings/expenseSet/editCategory.html') }} {{ include('/Settings/expenseSet/deleteCategory.html') }} {{ include('/Settings/expenseSet/addCategory.html')
-}} {{ include('/Settings/paymentMethods/editCategory.html') }} {{ include('/Settings/paymentMethods/deleteCategory.html') }} {{ include('/Settings/paymentMethods/addCategory.html') }}
+}} {{ include('/Settings/paymentMethods/editCategory.html') }} {{ include('/Settings/paymentMethods/deleteCategory.html') }} {{ include('/Settings/paymentMethods/addCategory.html') }} {{ include('/Settings/userSet/deleteBalance.html') }} {{ include('/Settings/userSet/deleteAccount.html')
+}}
 
 <section class="container mt-4 col-6 mb-2">
     <div class="row justify-content-center bg-light ">
@@ -128,6 +129,20 @@ include('/Settings/incomeSet/deleteCategory.html') }} {{ include('/Settings/inco
 								<i class="icon-edit" id="toggler"></i>
 							
 							</button>
+                    </div>
+
+                    <div class="row justify-content-center mt-3">
+                        <button type="button" class="inputIcon userSet col-11 finallyButton py-1" data-bs-toggle="modal" data-bs-target="#deleteAllBalance">Delete All Incomes And Expenses
+                                    
+                            <i class="icon-trash-empty" id="toggler"></i>
+                        
+                        </button>
+
+                        <button type="button" class="inputIcon userSet col-11 mt-3 finallyButton py-1" data-bs-toggle="modal" data-bs-target="#deleteAccount">Delete User Account
+                                    
+                            <i class="icon-trash-empty" id="toggler"></i>
+                        
+                        </button>
                     </div>
                 </form>
             </div>

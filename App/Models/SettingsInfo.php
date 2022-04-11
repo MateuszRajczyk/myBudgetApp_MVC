@@ -212,4 +212,17 @@ class SettingsInfo extends \Core\Model
 
         return $stmt->execute();
     }
+
+    public function deleteAllData()
+    {
+        $sql = "DELETE incomes, expenses FROM incomes INNER JOIN expenses WHERE incomes.userId=:userId AND incomes.userId = expenses.userId";
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 }

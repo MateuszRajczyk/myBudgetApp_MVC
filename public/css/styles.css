@@ -450,3 +450,15 @@ button:focus {
     padding-bottom: 1px;
     border-radius: 3px;
 }
+
+button.finallyButton {
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #df4d34;
+    border-radius: 5px;
+}
+
+.deleteAccInfo {
+    color: #eb2719;
+    font-weight: 600;
+}

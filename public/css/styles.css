@@ -437,3 +437,16 @@ button:focus {
     outline: none !important;
     box-shadow: none !important;
 }
+
+.modalLabel {
+    font-weight: bold;
+}
+
+.limitInfo {
+    font-size: 13px;
+    font-weight: 700;
+    background-color: #81818a;
+    padding-top: 2px;
+    padding-bottom: 1px;
+    border-radius: 3px;
+}

@@ -466,6 +466,28 @@ function modalCategory() {
     });
 
     $(document).on('click', '#editButton', function() {
+        $('.amountEnable').prop('disabled', true);
+        $('.limitEnable').prop('checked', false);
+        $('.errorLimit').empty();
+        $('#editCategoryExpenseModal input[name="monthlyLimitAmount"]').val('');
+
+        if ($(this).attr('limit-info')) {
+            $('.amountEnable').prop('disabled', false);
+            $('.limitEnable').prop('checked', true);
+
+            $('#editCategoryExpenseModal input[name="monthlyLimitAmount"]').val($(this).attr('limit-info'));
+        }
+
+
+        $('.limitEnable').click(function() {
+            if ($('.limitEnable').is(':checked')) {
+                $('.amountEnable').prop('disabled', false);
+            } else {
+                $('.amountEnable').prop('disabled', true);
+                $('.errorLimit').empty();
+            }
+        });
+
         $('#editCategoryIncomeModal input[name="categoryNewName"]').val($(this).attr('category-name'));
         $('#editCategoryIncomeModal input[name="categoryOldId"]').val($(this).attr('category-id'));
         $('#editCategoryExpenseModal input[name="categoryNewName"]').val($(this).attr('category-name'));
@@ -490,6 +512,10 @@ function validateCategories() {
                             minlength: 3,
                             maxlength: 20,
                             lettersonly: true
+                        },
+                        monthlyLimitAmount: {
+                            required: true,
+                            min: 1
                         }
                     },
                     messages: {
@@ -497,11 +523,18 @@ function validateCategories() {
                             required: 'Name of category is required',
                             minlength: 'Please enter at least 3 characters for the category',
                             maxlength: 'Please enter maximum 20 characters for the category'
+                        },
+                        monthlyLimitAmount: {
+                            required: 'Monthly Limit Amount field is required',
+                            min: 'Value must be greater or equal 1'
                         }
                     },
                     errorPlacement: function(error, element) {
                         if (element.attr('name') == 'categoryNewName') {
                             error.appendTo('.errorName')
+                        }
+                        if (element.attr('name') == 'monthlyLimitAmount') {
+                            error.appendTo('.errorLimit')
                         }
                     }
                 });
@@ -537,5 +570,52 @@ function validateCategories() {
                 });
             });
         });
+    });
+}
+
+function showLimitInfo() {
+    $('#addItemForm').on('input', function() {
+
+        var category = $('select[name="category"]').val();
+        var amount = $('input[name="amount"]').val();
+        var date = $('input[name="date"]').val();
+
+        if (amount && category) {
+
+            $.ajax({
+                url: '/expense/show-limit-info-category',
+                type: 'POST',
+                data: {
+                    amount: amount,
+                    category: category,
+                    date: date
+                },
+                dataType: 'JSON',
+                success: function(info) {
+
+                    if (info && info[0].limitAmount != null) {
+
+                        $('.limit').html(info[0].limitAmount);
+                        $('.previousExp').html(info[0].catSumAmount);
+                        $('.remaining').html((parseFloat(info[0].limitAmount) - parseFloat(info[0].catSumAmount)).toFixed(2));
+                        $('.allExp').html((parseFloat(info[0].catSumAmount) + parseFloat(amount)).toFixed(2));
+
+                        if ((parseFloat(info[0].catSumAmount) + parseFloat(amount)) > parseFloat(info[0].limitAmount)) {
+                            $('.limitInfo').css('background-color', '#e65a48');
+                        } else {
+                            $('.limitInfo').css('background-color', '#59c762');
+                        }
+
+                        $('.limitInfo').prop('hidden', false);
+                    } else {
+                        $('.limitInfo').prop('hidden', true);
+                    }
+                }
+            });
+        } else {
+            $('.limitInfo').prop('hidden', true);
+        }
+
+
     });
 }

@@ -51,7 +51,7 @@ class SettingsInfo extends \Core\Model
 
     public function getExpenseCategoriesInfo()
     {
-        $sql = "SELECT id,name FROM expenses_category_assigned_to_users WHERE userId=:userId";
+        $sql = "SELECT id,name, limitAmount FROM expenses_category_assigned_to_users WHERE userId=:userId";
         
         $db = static::getDB();
 
@@ -124,7 +124,7 @@ class SettingsInfo extends \Core\Model
 
     public function editExpenseCategory()
     {
-        $sql = "UPDATE expenses_category_assigned_to_users SET name=:newName WHERE userId=:userId AND id=:oldId";
+        $sql = "UPDATE expenses_category_assigned_to_users SET name=:newName, limitAmount=:limit WHERE userId=:userId AND id=:oldId";
         
         $db = static::getDB();
 
@@ -133,6 +133,11 @@ class SettingsInfo extends \Core\Model
         $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->bindValue(':newName', $this->categoryNewName, PDO::PARAM_STR);
         $stmt->bindValue(':oldId', $this->categoryOldId, PDO::PARAM_INT);
+        if(isset($this->monthlyLimitAmount)){
+            $stmt->bindValue(':limit', $this->monthlyLimitAmount, PDO::PARAM_STR);
+        }else{
+            $stmt->bindValue(':limit', NULL, PDO::PARAM_STR);
+        }
 
         return $stmt->execute();
     }

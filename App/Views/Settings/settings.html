@@ -175,8 +175,21 @@ include('/Settings/incomeSet/deleteCategory.html') }} {{ include('/Settings/inco
                         <button class="inputIcon addButton" id="addButton" style="font-size: 18px; font-weight: 600;" type="button" data-bs-toggle="modal" data-bs-target="#addCategoryExpenseModal">Add category
                             <i class="icon-plus py-0"></i>
                         </button>
-                    </label> {% for category in expenseCategory %}
-                    <div class="input-group-text ps-3 pt-0 mb-2">
+                    </label> {% for category in expenseCategory %} {% if category.limitAmount is not null %}
+
+                    <label class="limitInfo mx-4 px-3">Monthly limit for category: {{ category.limitAmount }} PLN</label>
+
+                    <div class="input-group-text ps-3 pt-0">
+
+                        <input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="{{ category.name }}" disabled>
+
+                        <button type="button" category-name="{{ category.name }}" category-id="{{ category.id }}" limit-info="{{ category.limitAmount }}" class="inputIcon userSet editButton" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#editCategoryExpenseModal"
+                            id="editButton"><i class="icon-edit" id="toggler"></i></button>
+                        <button type="button" class="inputIcon userSet" delete-id="{{ category.id }}" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#deleteCategoryExpenseModal" id="deleteButton"><i class="icon-trash-empty" id="toggler"></i></button>
+
+                    </div>
+                    {% else %}
+                    <div class="input-group-text ps-3 pt-0 mt-2">
 
                         <input class="form-control shadow-none border-secondary border-1" type="text" name="name" value="{{ category.name }}" disabled>
 
@@ -184,8 +197,7 @@ include('/Settings/incomeSet/deleteCategory.html') }} {{ include('/Settings/inco
                         <button type="button" class="inputIcon userSet" delete-id="{{ category.id }}" style="font-size: 21px;" data-bs-toggle="modal" data-bs-target="#deleteCategoryExpenseModal" id="deleteButton"><i class="icon-trash-empty" id="toggler"></i></button>
 
                     </div>
-
-                    {% endfor %}
+                    {% endif %} {% endfor %}
 
                 </form>
             </div>

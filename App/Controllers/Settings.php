@@ -196,4 +196,36 @@ class Settings extends Authenticated
 		$this->redirect('/settings/profileSettings');
 	}
 
+	public function deleteBalanceAction()
+	{
+		$settings = new SettingsInfo();
+
+		$deleteBalance = $settings->deleteAllData();
+
+		if($deleteBalance){
+			Flash::addMessage('All incomes and expenses was successfully deleted from your account');
+		}else{
+			Flash::addMessage('Something goes wrong', Flash::WARNING);
+		}
+
+		$this->redirect('/settings/profileSettings');
+
+	}
+
+	public function deleteAccountAction()
+	{
+		$user = new User();
+
+		$deleteUser = $user->deleteAccount();
+
+		if($deleteUser){
+			Flash::addMessage('Your account was successfully deleted from system');
+		}else{
+			Flash::addMessage('Something goes wrong', Flash::WARNING);
+		}
+
+		$this->redirect('/');
+
+	}
+
 }

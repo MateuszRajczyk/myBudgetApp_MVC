@@ -1,0 +1,24 @@
+<div class="modal hide fade in" tabindex="-1" role="dialog" id="deleteAllBalance" data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Delete Incomes And Expenses</h3>
+
+                <button type="button" class="close closeButton" data-bs-dismiss="modal">x</button>
+            </div>
+
+            <form class="mx-4 modalEditOptionIncomeCategory" id="incomeSetForm" style="text-align: left;" method="post" action="/settings/delete-balance">
+                <div class="modal-body">
+                    <h5>Are you sure you want to delete all incomes and expenses from your account? </h5>
+                </div>
+
+                <div class="modal-footer mt-2 mb-2">
+                    <button class="btn footerButtons" type="submit">Delete</button>
+
+                    <button type="button" id="incomeCatSet" class="btn footerButtons" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

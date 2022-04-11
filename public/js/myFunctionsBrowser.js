@@ -379,9 +379,11 @@ function showChart(nameIncome, amountIncome, nameExpense, amountExpense) {
     var colors = [];
 
     var dynamicColors = function() {
-        var op = (Math.random() * (1 - 0.5) + 0.5);
+        var r = (Math.random() * (200 - 50) + 50);
+        var g = (Math.random() * (200 - 50) + 50);
+        var b = (Math.random() * (200 - 50) + 50);
 
-        return "rgba(" + 50 + "," + 57 + "," + 191 + "," + op + ")";
+        return "rgba(" + r + "," + g + "," + b + "," + 1 + ")";
     };
 
     for (var i = 0; i <= nameExpense.length; i++) {

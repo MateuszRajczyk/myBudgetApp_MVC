@@ -410,6 +410,31 @@ class User extends \Core\Model
 
 		return $stmt->execute();
 	}
+
+	public function deleteAccount()
+	{
+		$sql = "DELETE users, incomes, expenses, incomes_category_assigned_to_users, expenses_category_assigned_to_users, payment_methods_assigned_to_users
+		FROM users
+		INNER JOIN incomes
+		INNER JOIN expenses
+		INNER JOIN incomes_category_assigned_to_users
+		INNER JOIN expenses_category_assigned_to_users
+		INNER JOIN payment_methods_assigned_to_users
+		WHERE users.id = :userId 
+		AND users.id = incomes.userId
+		AND users.id = expenses.userId
+		AND users.id = incomes_category_assigned_to_users.userId
+		AND users.id = expenses_category_assigned_to_users.userId
+		AND users.id = payment_methods_assigned_to_users.userId";
+        
+        $db = static::getDB();
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+
+        return $stmt->execute();
+	}
 	
 	
 }

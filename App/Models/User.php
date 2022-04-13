@@ -413,19 +413,14 @@ class User extends \Core\Model
 
 	public function deleteAccount()
 	{
-		$sql = "DELETE users, incomes, expenses, incomes_category_assigned_to_users, expenses_category_assigned_to_users, payment_methods_assigned_to_users
-		FROM users
-		INNER JOIN incomes
-		INNER JOIN expenses
-		INNER JOIN incomes_category_assigned_to_users
-		INNER JOIN expenses_category_assigned_to_users
-		INNER JOIN payment_methods_assigned_to_users
-		WHERE users.id = :userId 
-		AND users.id = incomes.userId
-		AND users.id = expenses.userId
-		AND users.id = incomes_category_assigned_to_users.userId
-		AND users.id = expenses_category_assigned_to_users.userId
-		AND users.id = payment_methods_assigned_to_users.userId";
+		$sql = "DELETE a, b, c, d, e, f
+			FROM (SELECT :userId AS id) user
+			LEFT OUTER JOIN users a ON user.id = a.id
+			LEFT OUTER JOIN incomes b ON user.id = b.userId
+			LEFT OUTER JOIN incomes_category_assigned_to_users c ON user.id = c.userId
+			LEFT OUTER JOIN expenses d ON user.id = d.userId
+			LEFT OUTER JOIN expenses_category_assigned_to_users e ON user.id = e.userId
+			LEFT OUTER JOIN payment_methods_assigned_to_users f ON user.id = f.userId";
         
         $db = static::getDB();
 

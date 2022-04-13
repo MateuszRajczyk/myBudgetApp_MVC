@@ -133,16 +133,23 @@ class addExpense extends \Core\Model
 		$startDate = Date::getMonthStartDate($this->date);
 		$endDate = Date::getMonthEndDate($this->date);
 
-		$sql = 'SELECT SUM(amount) 
-				AS catSumAmount, expenses_category_assigned_to_users.limitAmount
-				FROM expenses, expenses_category_assigned_to_users
-				WHERE expenses.userId = :userId 
-				AND expenses_category_assigned_to_users.id = (SELECT id FROM expenses_category_assigned_to_users WHERE userId=:userId AND name=:category)
-				AND expenses.userId = expenses_category_assigned_to_users.userId 
-				AND expenses.expenseCategoryAssignedToUserId = expenses_category_assigned_to_users.id 
+		$sql = 'SELECT IFNULL(SUM(expenses.amount),0)
+				AS catSumAmount, 
+				IFNULL(expenses_category_assigned_to_users.limitAmount, 
+				(SELECT limitAmount
+					FROM expenses_category_assigned_to_users
+					WHERE userId = :userId 
+					AND name=:category)) 
+				AS limitAmount
+				FROM expenses, expenses_category_assigned_to_users 
+				WHERE expenses_category_assigned_to_users.userId = :userId
+        		AND expenses_category_assigned_to_users.id = (SELECT id 
+					FROM expenses_category_assigned_to_users 
+					WHERE userId=:userId 
+					AND name=:category)
+        		AND expenses_category_assigned_to_users.id = expenses.expenseCategoryAssignedToUserId
 				AND expenses.dateOfExpense >=:date1 
-				AND expenses.dateOfExpense <=:date2 
-				GROUP BY expenses.expenseCategoryAssignedToUserId';
+				AND expenses.dateOfExpense <=:date2';
 		
 		$db = static::getDB();
 		

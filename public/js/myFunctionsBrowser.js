@@ -596,11 +596,12 @@ function showLimitInfo() {
                 success: function(info) {
 
                     if (info && info[0].limitAmount != null) {
+                        $('.limitInfo').prop('hidden', false);
 
-                        $('.limit').html(info[0].limitAmount);
-                        $('.previousExp').html(info[0].catSumAmount);
-                        $('.remaining').html((parseFloat(info[0].limitAmount) - parseFloat(info[0].catSumAmount)).toFixed(2));
-                        $('.allExp').html((parseFloat(info[0].catSumAmount) + parseFloat(amount)).toFixed(2));
+                        $('.limit').html(info[0].limitAmount + ' PLN');
+                        $('.previousExp').html(info[0].catSumAmount + ' PLN');
+                        $('.remaining').html((parseFloat(info[0].limitAmount) - parseFloat(info[0].catSumAmount)).toFixed(2) + ' PLN');
+                        $('.allExp').html(((parseFloat(info[0].catSumAmount) + parseFloat(amount)).toFixed(2)) + ' PLN');
 
                         if ((parseFloat(info[0].catSumAmount) + parseFloat(amount)) > parseFloat(info[0].limitAmount)) {
                             $('.limitInfo').css('background-color', '#e65a48');
@@ -608,7 +609,6 @@ function showLimitInfo() {
                             $('.limitInfo').css('background-color', '#59c762');
                         }
 
-                        $('.limitInfo').prop('hidden', false);
                     } else {
                         $('.limitInfo').prop('hidden', true);
                     }

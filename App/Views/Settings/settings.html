@@ -2,16 +2,17 @@
 
 <script>
     validateUserSettings();
+
     validateCategories();
+
+
+
     modalCategory();
-
-
 
     showHidePassword('#toggler1', '.passwordShowHide1', '.showHide1');
     showHidePassword('#toggler2', '.passwordShowHide2', '.showHide2');
     showHidePassword('#toggler3', '.passwordShowHide3', '.showHide3');
     showHidePassword('#toggler4', '.passwordShowHide4', '.showHide4');
-
 
     $('#userSet').on('click', function() {
         $('#userSetForm').trigger('reset');

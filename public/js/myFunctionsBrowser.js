@@ -192,7 +192,7 @@ function newValidMethods() {
     $.validator.addMethod('lettersonly',
         function(value, element, param) {
 
-            if (value.match(/^[a-zA-Z]+$/)) {
+            if (value.match(/^[a-zA-Z\s]+$/)) {
 
                 return true;
             }
@@ -500,77 +500,149 @@ function modalCategory() {
 
 }
 
+function editValidate() {
+    $('.editValidate').each(function() {
+        $(this).validate({
+            errorElement: 'div',
+            rules: {
+                categoryNewName: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20,
+                    lettersonly: true
+                },
+                monthlyLimitAmount: {
+                    required: true,
+                    min: 1
+                }
+            },
+            messages: {
+                categoryNewName: {
+                    required: 'Name of category is required',
+                    minlength: 'Please enter at least 3 characters for the category',
+                    maxlength: 'Please enter maximum 20 characters for the category'
+                },
+                monthlyLimitAmount: {
+                    required: 'Monthly Limit Amount field is required',
+                    min: 'Value must be greater or equal 1'
+                }
+            },
+            errorPlacement: function(error, element) {
+                if (element.attr('name') == 'categoryNewName') {
+                    error.appendTo('.errorName')
+                }
+                if (element.attr('name') == 'monthlyLimitAmount') {
+                    error.appendTo('.errorLimit')
+                }
+            }
+        });
+    });
+}
+
+function addIncomeNewCategoryValidate() {
+    $('.addValidateIncomeCategory').each(function() {
+        $(this).validate({
+            errorElement: 'div',
+            rules: {
+                categoryAdded: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20,
+                    lettersonly: true,
+                    remote: '/account/is-income-category-exists'
+                }
+            },
+            messages: {
+                categoryAdded: {
+                    required: 'Name of category is required',
+                    minlength: 'Please enter at least 3 characters for the category',
+                    maxlength: 'Please enter maximum 20 characters for the category',
+                    remote: 'Category already exists'
+                }
+            },
+            errorPlacement: function(error, element) {
+                if (element.attr('name') == 'categoryAdded') {
+                    error.appendTo('.errorName')
+                }
+            }
+        });
+    });
+}
+
+function addExpenseNewCategoryValidate() {
+    $('.addValidateExpenseCategory').each(function() {
+        $(this).validate({
+            errorElement: 'div',
+            rules: {
+                categoryAdded: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20,
+                    lettersonly: true,
+                    remote: '/account/is-expense-category-exists'
+                }
+            },
+            messages: {
+                categoryAdded: {
+                    required: 'Name of category is required',
+                    minlength: 'Please enter at least 3 characters for the category',
+                    maxlength: 'Please enter maximum 20 characters for the category',
+                    remote: 'Category already exists'
+                }
+            },
+            errorPlacement: function(error, element) {
+                if (element.attr('name') == 'categoryAdded') {
+                    error.appendTo('.errorName')
+                }
+            }
+        });
+    });
+}
+
+function addPaymentNewCategoryValidate() {
+    $('.addValidatePaymentCategory').each(function() {
+        $(this).validate({
+            errorElement: 'div',
+            rules: {
+                categoryAdded: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20,
+                    lettersonly: true,
+                    remote: '/account/is-payment-category-exists'
+                }
+            },
+            messages: {
+                categoryAdded: {
+                    required: 'Name of category is required',
+                    minlength: 'Please enter at least 3 characters for the category',
+                    maxlength: 'Please enter maximum 20 characters for the category',
+                    remote: 'Category already exists'
+                }
+            },
+            errorPlacement: function(error, element) {
+                if (element.attr('name') == 'categoryAdded') {
+                    error.appendTo('.errorName')
+                }
+            }
+        });
+    });
+}
+
 function validateCategories() {
     $(document).ready(function() {
         $('.editButton').click(function() {
             $('.errorName').empty();
 
-            $('.editValidate').each(function() {
-                $(this).validate({
-                    errorElement: 'div',
-                    rules: {
-                        categoryNewName: {
-                            required: true,
-                            minlength: 3,
-                            maxlength: 20,
-                            lettersonly: true
-                        },
-                        monthlyLimitAmount: {
-                            required: true,
-                            min: 1
-                        }
-                    },
-                    messages: {
-                        categoryNewName: {
-                            required: 'Name of category is required',
-                            minlength: 'Please enter at least 3 characters for the category',
-                            maxlength: 'Please enter maximum 20 characters for the category'
-                        },
-                        monthlyLimitAmount: {
-                            required: 'Monthly Limit Amount field is required',
-                            min: 'Value must be greater or equal 1'
-                        }
-                    },
-                    errorPlacement: function(error, element) {
-                        if (element.attr('name') == 'categoryNewName') {
-                            error.appendTo('.errorName')
-                        }
-                        if (element.attr('name') == 'monthlyLimitAmount') {
-                            error.appendTo('.errorLimit')
-                        }
-                    }
-                });
-            });
+            editValidate();
         });
 
         $('.addButton').click(function() {
             $('.errorName').empty();
 
-            $('.addValidate').each(function() {
-                $(this).validate({
-                    errorElement: 'div',
-                    rules: {
-                        categoryAdded: {
-                            required: true,
-                            minlength: 3,
-                            maxlength: 20,
-                            lettersonly: true
-                        }
-                    },
-                    messages: {
-                        categoryAdded: {
-                            required: 'Name of category is required',
-                            minlength: 'Please enter at least 3 characters for the category',
-                            maxlength: 'Please enter maximum 20 characters for the category'
-                        }
-                    },
-                    errorPlacement: function(error, element) {
-                        if (element.attr('name') == 'categoryAdded') {
-                            error.appendTo('.errorName')
-                        }
-                    }
-                });
-            });
+            addIncomeNewCategoryValidate();
+            addExpenseNewCategoryValidate();
+            addPaymentNewCategoryValidate();
         });
     });
 }

@@ -164,6 +164,48 @@ class addExpense extends \Core\Model
 		
 		return $stmt->fetchAll();
 	}
+
+	public static function categoryExpenseExists($category)
+    {
+		return static::findByExpenseCategory($category) !== false;
+    }
+
+	public static function findByExpenseCategory($category)
+	{
+		$sql = 'SELECT * FROM expenses_category_assigned_to_users WHERE name = :category AND userId = :userId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+		$stmt->bindParam(':userId', $_SESSION['user_id'], PDO::PARAM_STR);
+
+		$stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+		
+        $stmt->execute();
+
+        return $stmt->fetch();
+	}
+
+	public static function categoryPaymentExists($category)
+    {
+		return static::findByPaymentCategory($category) !== false;
+    }
+
+	public static function findByPaymentCategory($category)
+	{
+		$sql = 'SELECT * FROM payment_methods_assigned_to_users WHERE name = :category AND userId = :userId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+		$stmt->bindParam(':userId', $_SESSION['user_id'], PDO::PARAM_STR);
+
+		$stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+		
+        $stmt->execute();
+
+        return $stmt->fetch();
+	}
 	
 
 }

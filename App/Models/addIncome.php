@@ -91,6 +91,27 @@ class addIncome extends \Core\Model
 
         return $stmt->execute();
 	}
+
+	public static function categoryIncomeExists($category)
+    {
+		return static::findByIncomeCategory($category) !== false;
+    }
+
+	public static function findByIncomeCategory($category)
+	{
+		$sql = 'SELECT * FROM incomes_category_assigned_to_users WHERE name = :category AND userId = :userId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+		$stmt->bindParam(':userId', $_SESSION['user_id'], PDO::PARAM_STR);
+
+		$stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+		
+        $stmt->execute();
+
+        return $stmt->fetch();
+	}
 	
 
 }

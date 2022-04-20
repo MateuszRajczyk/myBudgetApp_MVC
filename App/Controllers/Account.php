@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use \App\Models\addExpense;
+use \App\Models\addIncome;
 use \App\Models\User;
 
 class Account extends \Core\Controller
@@ -16,13 +18,31 @@ class Account extends \Core\Controller
 		echo json_encode($isEmailValid);
 	}
 
-	public function validatePasswordAction()
+	public function isIncomeCategoryExistsAction()
 	{
-		$isPasswordTaken = !User::emailExists($_GET['email']);
+		$isNewCategoryValid = !addIncome::categoryIncomeExists($_GET['categoryAdded']);
 		
 		header('Content-Type: application/json');
 		
-		echo json_encode($isEmailValid);
+		echo json_encode($isNewCategoryValid);
+	}
+
+	public function isExpenseCategoryExistsAction()
+	{
+		$isNewCategoryValid = !addExpense::categoryExpenseExists($_GET['categoryAdded']);
+		
+		header('Content-Type: application/json');
+		
+		echo json_encode($isNewCategoryValid);
+	}
+
+	public function isPaymentCategoryExistsAction()
+	{
+		$isNewCategoryValid = !addExpense::categoryPaymentExists($_GET['categoryAdded']);
+		
+		header('Content-Type: application/json');
+		
+		echo json_encode($isNewCategoryValid);
 	}
 
 }

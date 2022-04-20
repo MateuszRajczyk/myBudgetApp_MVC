@@ -339,12 +339,12 @@ class User extends \Core\Model
 		$sql = "INSERT INTO payment_methods_assigned_to_users(userId, name) 
 				SELECT users.id, payment_methods_default.name 
 				FROM users, payment_methods_default 
-				WHERE users.username= :username";
+				WHERE users.email= :email";
 				
 		$db = static::getDB();
 		$stmt = $db->prepare($sql);
 		
-		$stmt->bindValue(':username', $this->userName, PDO::PARAM_STR);
+		$stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
 		
 		return $stmt->execute();
 	}
@@ -354,12 +354,12 @@ class User extends \Core\Model
 		$sql = "INSERT INTO incomes_category_assigned_to_users(userId, name) 
 				SELECT users.id, incomes_category_default.name 
 				FROM users, incomes_category_default 
-				WHERE users.username = :username";
+				WHERE users.email = :email";
 				
 		$db = static::getDB();
 		$stmt = $db->prepare($sql);
 		
-		$stmt->bindValue(':username', $this->userName, PDO::PARAM_STR);
+		$stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
 		
 		return $stmt->execute();
 	}
@@ -369,12 +369,12 @@ class User extends \Core\Model
 		$sql = "INSERT INTO expenses_category_assigned_to_users(userId, name) 
 				SELECT users.id, expenses_category_default.name 
 				FROM users, expenses_category_default 
-				WHERE users.username= :username";
+				WHERE users.email= :email";
 				
 		$db = static::getDB();
 		$stmt = $db->prepare($sql);
 		
-		$stmt->bindValue(':username', $this->userName, PDO::PARAM_STR);
+		$stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
 		
 		return $stmt->execute();
 	}

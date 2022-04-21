@@ -215,7 +215,10 @@ class SettingsInfo extends \Core\Model
 
     public function deleteAllData()
     {
-        $sql = "DELETE incomes, expenses FROM incomes INNER JOIN expenses WHERE incomes.userId=:userId AND incomes.userId = expenses.userId";
+        $sql = "DELETE a, b
+                FROM (SELECT :userId AS id) user
+                LEFT OUTER JOIN incomes a ON user.id = a.userId
+                LEFT OUTER JOIN expenses b ON user.id = b.userId";
         
         $db = static::getDB();
 

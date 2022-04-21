@@ -31,7 +31,7 @@ class Date
 	
 	public static function getStartCurrentYearDate()
 	{
-		return date('Y-n-j', strtotime('first day of this year'));
+		return date('Y-n-j', strtotime('first day of january this year'));
 	}
 	
 	public static function getEndCurrentYearDate()

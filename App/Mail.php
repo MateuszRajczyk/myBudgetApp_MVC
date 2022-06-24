@@ -10,7 +10,7 @@ use App\Config;
 
 class Mail
 {
-	public static function send($to, $subject, $message)
+	/*public static function send($to, $subject, $message)
 	{	 
 		$mail = new PHPMailer; 
 		 
@@ -42,5 +42,10 @@ class Mail
 		 
 		 
 		$mail->Send();
+	}*/
+
+	public static function send($to, $subject, $message, $headers = [])
+	{
+		return mail($to, $subject, $message, $headers);
 	}
 }

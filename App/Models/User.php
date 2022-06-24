@@ -249,8 +249,14 @@ class User extends \Core\Model
 		$url = 'http://'.$_SERVER['HTTP_HOST'].'/password/reset/'.$this->passwordResetToken;
 		
 		$message = View::getTemplate('Password/resetEmail.html', ['url' => $url]);
-		
-		Mail::send($this->email, 'Password reset', $message);
+
+		$header = array(
+			'MIME-Version' =>  '1.0',
+			'Content-Type' => 'text/html;charset=UTF-8',
+			'From' => 'myfinbudget@gmail.com'
+		);
+
+		Mail::send($this->email, 'Account activation - Home Budget', $message, $header);
 	}
 	
 	public static function findByPasswordReset($token)
@@ -313,8 +319,14 @@ class User extends \Core\Model
 		$url = 'http://'.$_SERVER['HTTP_HOST'].'/signup/activate/'.$this->activationToken;
 		
 		$message = View::getTemplate('Sign Up/activationEmail.html', ['url' => $url]);
-		
-		Mail::send($this->email, 'Account activation - Home Budget', $message);
+
+		$header = array(
+			'MIME-Version' =>  '1.0',
+			'Content-Type' => 'text/html;charset=UTF-8',
+			'From' => 'myfinbudget@gmail.com'
+		);
+
+		Mail::send($this->email, 'Account activation - Home Budget', $message, $header);
 	}
 	
 	public static function activate($value)

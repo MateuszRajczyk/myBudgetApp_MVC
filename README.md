@@ -1,6 +1,6 @@
 Application to menage your home finance. Application functionality:
 
-Add new income
+  Add new income
 Add new expense
 Show balance incomes and expenses
 Add limits for given categories finance
